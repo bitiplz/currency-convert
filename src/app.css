@@ -1,0 +1,21 @@
+div {
+    display:inline-block;
+}
+.section{
+    display: block;
+    padding: 10px;
+}
+
+ul {
+    border: 1px solid grey;
+    list-style: none;
+    padding: 5px;
+}
+
+a,li {
+    cursor: pointer;
+}
+
+a,i {
+    display: block;
+}
