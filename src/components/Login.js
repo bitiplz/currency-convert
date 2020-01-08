@@ -15,16 +15,7 @@ function Login( props ) {
       .catch( err => {} );
     }
 
-  return (
-
-      <div position="static">
-          <h4> Currency-Change </h4>
-          {
-              props.user ? `Hello ${props.user.displayName}.`
-              : <button color="inherit" onClick={loginWithGoogle} >Login</button>
-          }
-      </div>
-  );
+  return <div/>
 }
 
 export default Login;

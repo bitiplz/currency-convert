@@ -4,15 +4,15 @@ import * as firebase from 'firebase';
 import fetchRates from '../apis/oexRates'
 import CurrencyList from './CurrencyList'
 import History from './History';
-
 import WheelSelect from './WheelSelect';
 
+import styled from 'styled-components';
 import '../app.css';
 
 function Converter( props ) {
 
-  const [from, setFrom] = useState( "USD" );
-  const [to, setTo] = useState( "HUF" );
+  const [from, setFrom] = useState( "HUF" );
+  const [to, setTo] = useState( "BMD" );
   const [amount, setAmount] = useState( 0 );
   const [currencies, setCurrencies] = useState( [] );
 
@@ -48,30 +48,48 @@ function Converter( props ) {
 
   return (
     <div>
-      <CurrencyList data={ currencies } selected={ from } onSelect={ e => setFrom( e.target.value ) } />
+      <CurrencyList data={ currencies.slice(31,70) } selected={ from } onSelect={ e => setFrom( e.target.value ) } />
       <input label="From" value={ amount ? amount : "" } onChange={ e => setAmount( e.target.value ) } />
       <input label="To" disabled value={ currencies.length && amount ? fx.convert( amount, { from, to } ).toFixed(2) : "" } />
-      <CurrencyList data={ currencies } selected={ to } onSelect={ e => setTo( e.target.value ) } />
-
-      <div style={{
-          border: '1px solid black',
-          display: 'grid',
-          width: '75%',
-          margin: 'auto',
-          gridTemplateRows: '1fr 1fr 1fr 1fr',
-        }}>
-        <select/>  
-        <input/>
-        <input/>
-        <select/>
-      </div>
+      <CurrencyList data={ currencies.slice(0,30) } selected={ to } onSelect={ e => setTo( e.target.value ) } />
 
       { renderHistory() }
 
-      <WheelSelect data={ currencies } size={800} />
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          minHeight: 800,
+          display: 'flex',
+        }}
+      >
+        <AbsolutePane h={600}>
+          <Magnet>
+            <WheelSelect data={ currencies.slice(31,70) } value={ from } onChange={ v => setTo( v ) } dotRadius={40} ringRadiusAdj={ 10 } />
+            <WheelSelect data={ currencies.slice(0,30) } value={ to } onChange={ v => setTo( v ) } dotRadius={40} ringRadiusAdj={ 30 } />
+          </Magnet>
+        </AbsolutePane>
+      </div>  
 
       </div>
   );
 }
 
 export default Converter;
+
+
+const AbsolutePane = styled.div`
+  width: 100%;
+  height: 100%;
+  min-height: ${ props => props.h || 800 }px;
+  display: flex;
+`;
+
+const Magnet = styled.div`
+    position: relative;
+    display: flex;
+    width: 0;
+    height: 0;
+    align-self: center;
+    margin: auto;
+`;
