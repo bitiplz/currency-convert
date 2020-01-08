@@ -65,9 +65,9 @@ export default function({data, ext, onChange}){
                                         //backgroundColor: `rgb(${100},${ inverse ? 150+(ds-idx)*2 : 150+idx*2},${ inverse ? 150+(ds-idx)*2 : 150+idx*2})`
                                         backgroundRepeat: 'no-repeat',
                                         backgroundSize : `170%`,
-                                        backgroundImage: `url(${`https://www.countryflags.io/${ item.slice(0,2) }/shiny/64.png`})`
+                                        backgroundImage: `url(${`https://www.countryflags.io/${ item.slice(0,2) }/flat/64.png`})`
                                     }}
-                                    onMouseEnter={ () => { if(index !== idx) setHoverIndex(idx) } }
+                                    onMouseEnter={ () => { setHoverIndex(idx) } }
                                     onMouseOut={ () => setHoverIndex(null) }
                                     onClick={ () => {
                                         setIndex(idx);
