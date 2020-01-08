@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 
+import Button from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+
 import '../app.css';
 
 function History( props ) {
@@ -21,13 +27,17 @@ function History( props ) {
     }
 
   return (
-    <div className="section" >
-        <a href='#' onClick={ props.onSave } > Click to save current conversion.</a>
-        <i> Check last 20 conversions below. Click to restore.</i>
-        <ul>
-            { history.map( (item, idx) => (<li key={ idx } onClick={ ()=>{ props.onSelect( item ) } } > {JSON.stringify( item )} </li>) ) }
-        </ul>
-    </div>
+        <div>
+            <Button variant="contained" color="secondary" onClick={ props.onSave } >Save current conversion</Button>
+            <i> Check last 20 conversions below. Click to restore.</i>
+            <List dense style={{maxHeight: '200px', overflow: 'auto'}} >
+                    { history.map( (item, idx) => (
+                        <ListItem height='25px' button onClick={ ()=>{ props.onSelect( item ) } } >
+                            <ListItemText> { JSON.stringify( item ) } </ListItemText>
+                        </ListItem>
+                    ))}
+            </List>
+        </div>
         
   );
 }

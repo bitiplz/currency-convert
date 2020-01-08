@@ -1,21 +1,66 @@
-div {
-    display:inline-block;
+body {
+    background-color: darkgrey;
 }
-.section{
+
+.canvas {
+    width: 400px;
+    height: 400px;
+    background-color: rgb(37, 37, 37);
+    position: relative;
     display: block;
-    padding: 10px;
+    position: absolute;
 }
 
-ul {
-    border: 1px solid grey;
-    list-style: none;
-    padding: 5px;
-}
-
-a,li {
-    cursor: pointer;
-}
-
-a,i {
+.liner {
+    position: absolute;
     display: block;
+    background-color: grey;
+    width: 0;
+    transform-origin: bottom right;
+    transition: all 0.8s ease-out;
+    
 }
+
+.dot {
+    position: relative;
+    background-color:cyan;
+    border-radius: 50%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+
+    background-position: center;
+
+    color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+
+    -webkit-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
+    -moz-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
+    box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
+
+    padding: 2px;
+    border: 2px solid white;
+
+    transition: all 0.2s ease-in;
+}
+
+.flag {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    background-size: auto;
+    background-position: center;
+    border-radius: 50%;
+}
+
+.cp {
+    position: relative;
+    background-color: red;
+    display: block;
+    width: 1px;
+    height: 1px;
+    margin: auto;
+    top: 50%;
+}
+

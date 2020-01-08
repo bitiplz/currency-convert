@@ -6,7 +6,33 @@ import fetchRates from '../apis/oexRates'
 import CurrencyList from './CurrencyList'
 import History from './History';
 
+import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Container';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+
+import WheelSelect from './WheelSelect';
+
 import '../app.css';
+
+const useStyles = makeStyles(theme => ({
+  textField: {
+    
+  },
+  card: {
+    width: '50%',
+    padding: '20px',
+    marginTop: '40px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+}));
 
 function Converter( props ) {
 
@@ -41,25 +67,58 @@ function Converter( props ) {
 
    const renderHistory = ()=>{
         if ( props.user )
-            return <History user={ props.user } onSelect={ setSelection } onSave={ writeUserData } />
+            return (
+              <Card className={ classes.card } >
+                <CardContent>
+                  <History user={ props.user } onSelect={ setSelection } onSave={ writeUserData } />
+                </CardContent>
+              </Card>
+            );
         return ""
     }    
 
+    const classes = useStyles();
 
   return (
-    <div  className="section" >
-        <div>
-            <CurrencyList data={ currencies } selected={ from } onSelect={ e => setFrom( e.target.value ) } />
-            <input type="number" value={ amount ? amount : "" } onChange={ e => setAmount( e.target.value ) } />
-        </div>
+    <div>
 
-        <div>
-            <input disabled value={ currencies.length && amount ? fx.convert( amount, { from, to } ).toFixed(2) : "" }/>
-            <CurrencyList data={ currencies } selected={ to } onSelect={ e => setTo( e.target.value ) } /> 
-        </div>
+      <Card className={ classes.card }>
+        <CardContent>
+          <Grid container>
+            <Grid item xs={12} sm={2} align-items="center">
+              <CurrencyList data={ currencies } selected={ from } onSelect={ e => setFrom( e.target.value ) } />
+            </Grid>
+            <Grid item xs={12} sm={4} >
+              <TextField label="From" variant="outlined" value={ amount ? amount : "" } onChange={ e => setAmount( e.target.value ) } />
+            </Grid>
+            <Grid item xs={12} sm={4} >
+              <TextField label="To" variant="outlined" disabled value={ currencies.length && amount ? fx.convert( amount, { from, to } ).toFixed(2) : "" } />
+            </Grid>
+            <Grid item xs={12} sm={2} >
+              <CurrencyList data={ currencies } selected={ to } onSelect={ e => setTo( e.target.value ) } />
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
 
-        { renderHistory() }
-    </div>
+      <div style={{
+          border: '1px solid black',
+          display: 'grid',
+          width: '75%',
+          margin: 'auto',
+          gridTemplateRows: '1fr 1fr 1fr 1fr',
+        }}>
+        <select/>  
+        <input/>
+        <input/>
+        <select/>
+      </div>
+
+      { renderHistory() }
+
+      <WheelSelect data={ currencies } />
+
+      </div>
   );
 }
 
