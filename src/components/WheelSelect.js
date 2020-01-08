@@ -13,7 +13,7 @@ const Ring = ({ data, children, dotRadius, ringRadiusAdj }) => {
     let rotUnit = 360 / ( data.length + SDSA + ( hovered ? HDSA : 0 ) );
     let rotPos = -( selected + SDSA ) * rotUnit;
     
-    const initMember = ( item, index ) => {
+    const member = ( item, index ) => {
         let rD = dotRadius; 
         rotPos += rotUnit;
       
@@ -30,9 +30,9 @@ const Ring = ({ data, children, dotRadius, ringRadiusAdj }) => {
             radiusLineOpts: { center:{x: 400, y: 400}, ringRadius, rotPos },
             dotContainerOpts: { rD, rotPos, item },
         }
-    }
+    };
 
-    const assignTemplate = ( member ) => {
+    const template = ( member ) => {
         return (
             <RadiusLine
                 key={ member.key }
@@ -54,7 +54,7 @@ const Ring = ({ data, children, dotRadius, ringRadiusAdj }) => {
     }
 
 
-    return data.map( (item, index) => assignTemplate( initMember( item, index ) ) );
+    return data.map( (item, index) => template( member( item, index ) ) );
 }
 
 export default function({data, size}){
