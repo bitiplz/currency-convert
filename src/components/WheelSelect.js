@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
+import styled from 'styled-components';
 
 export default function({data, ext, onChange}){
-
-
     const [indexInner, setIndexInner] = useState( 0 );
     const [hoverIndexInner, setHoverIndexInner] = useState( null );
     const [indexOuter, setIndexOuter] = useState( 0 );
@@ -30,10 +29,8 @@ export default function({data, ext, onChange}){
                         //space for selected
                         if ( idx === index ) { rotPos += 2*rot; cDotR *= 3; }
                         if ( idx === index+1 ) {rotPos += rot; }
-
                     
                         //space for hovered
-                        
                         if ( hoverIndex && idx === hoverIndex ) { cDotR *= 1.8; rotPos += rot*0.525; }
                         if ( hoverIndex && idx === hoverIndex+1 ) { rotPos += rot*0.525; }
 
@@ -42,63 +39,82 @@ export default function({data, ext, onChange}){
                         const currentRotState = rotPos;
                         
                         return (
-                            <div
-                                className='liner'
+                            <RadiusLine
                                 key={idx}
-                                style={{
-                                    left: `${center.x}px`,
-                                    bottom: `${center.y}px`,
-                                    height: `${ r }px`,
-                                    transform: `rotate(${ currentRotState }deg)`
-                                }}
-                            >
-                                <div
-                                    className='dot'
-                                    style={{
-                                        width: `${cDotR}px`,
-                                        height: `${cDotR}px`,
-                                        left: `${ -cDotR/2 }px`,
-                                        top: `${ -cDotR/2 }px`,
-                                        transform: `rotate(${ -currentRotState }deg)`,
-                                        fontSize : `${ cDotR*0.40 }px`,
-                                        fontWeight: '800',
-                                        //backgroundColor: `rgb(${100},${ inverse ? 150+(ds-idx)*2 : 150+idx*2},${ inverse ? 150+(ds-idx)*2 : 150+idx*2})`
-                                        backgroundRepeat: 'no-repeat',
-                                        backgroundSize : `170%`,
-                                        backgroundImage: `url(${`https://www.countryflags.io/${ item.slice(0,2) }/flat/64.png`})`
-                                    }}
+                                opts={{ center, r, currentRotState }} >
+                                <DotContainer
                                     onMouseEnter={ () => { setHoverIndex(idx) } }
                                     onMouseOut={ () => setHoverIndex(null) }
-                                    onClick={ () => {
-                                        setIndex(idx);
-                                    } }
-                                >
-                                    {item}
-                                </div>
-
-                            </div>
+                                    onClick={ () => setIndex(idx) }
+                                    opts={{ cDotR, currentRotState, item }} >
+                                {item}
+                                </DotContainer>
+                            </RadiusLine>
                         )
                     });
         /**/
     }
 
     return (
-        <div className='canvas' style={{ height: `${size}px`, width: `${size}px` }} >
+        <Canvas size={ 800 } >
             { circle( data.slice(31,66), indexOuter, setIndexOuter, hoverIndexOuter, setHoverIndexOuter, 30, true )  }
             { circle( data.slice(0,31), indexInner, setIndexInner, hoverIndexInner, setHoverIndexInner, 10 ) }
-        </div>
+        </Canvas>
     );
     
 }
 
-/* 
-
-active:
-    1 ami 4x -> +3
-
-hover:
-    1 ami 3x -> +2
-    4 ami 2x -> +4
 
 
-*/
+const Canvas = styled.div`
+    background-color: rgb(37, 37, 37);
+    position: relative;
+    display: block;
+    position: absolute;
+    width: ${ props => props.size }px;
+    height: ${ props => props.size }px;
+`;
+
+const RadiusLine = styled.div`
+    position: absolute;
+    display: block;
+    background-color: grey;
+    width: 0;
+    height: ${ props => props.opts.r }px;
+    left: ${ props => props.opts.center.x}px;
+    bottom: ${props => props.opts.center.y}px;
+    transform: rotate(${ props => props.opts.currentRotState }deg);
+
+    transform-origin: bottom right;
+    transition: all 0.8s ease-out;
+`;
+
+const DotContainer = styled.div`
+    position: relative;
+    border-radius: 50%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 2px;
+    border: 2px solid white;
+    width: ${ props => props.opts.cDotR }px;
+    height: ${ props => props.opts.cDotR }px;
+    left: ${ props => props.opts.cDotR/-2 }px;
+    top: ${ props => props.opts.cDotR/-2 }px;
+    font-size : ${ props => props.opts.cDotR*0.4 }px;
+    transform: rotate(${ props => -props.opts.currentRotState }deg);
+    font-weight: 800;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size : 170%;
+    background-image: url("https://www.countryflags.io/${ props => props.opts.item.substring(0,2) }/flat/64.png");
+
+    transition: all 0.2s ease-in;
+
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    -webkit-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
+    -moz-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
+    box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
+`;
