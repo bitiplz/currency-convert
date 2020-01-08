@@ -68,7 +68,7 @@ function Converter( props ) {
 
       { renderHistory() }
 
-      <WheelSelect data={ currencies } />
+      <WheelSelect data={ currencies } size={800} />
 
       </div>
   );

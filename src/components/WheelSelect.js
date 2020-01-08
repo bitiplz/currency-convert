@@ -1,95 +1,114 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
-export default function({data, ext, onChange}){
-    const [indexInner, setIndexInner] = useState( 0 );
-    const [hoverIndexInner, setHoverIndexInner] = useState( null );
-    const [indexOuter, setIndexOuter] = useState( 0 );
-    const [hoverIndexOuter, setHoverIndexOuter] = useState( null );
+const SDSA = 2;     //selectedDotSpaceAddition
+const HDSA = 1.2;   //hoveredDotSpaceAddition
 
-    const size = 800;
-    const dotR = 40;
-    const center = {x: size/2, y: size/2}
+const Ring = ({ data, children, dotRadius, ringRadiusAdj }) => {
 
-    const circle = ( d, index, setIndex, hoverIndex, setHoverIndex, ext, inverse ) => {
-        /**/
-        const ds = d.length;
+    const [selected, setSelected] = useState( 10 );
+    const [hovered, setHovered] = useState( null );
 
-        let rotUnit = 360/(ds+2+( hoverIndex ? 1.2 : 0 ))
-        let rotPos = -(index+2)*rotUnit;
+    const ringRadius = data.length * dotRadius / Math.PI / 2 + ringRadiusAdj || 0;
+    let rotUnit = 360 / ( data.length + SDSA + ( hovered ? HDSA : 0 ) );
+    let rotPos = -( selected + SDSA ) * rotUnit;
+    
+    const initMember = ( item, index ) => {
+        let rD = dotRadius; 
+        rotPos += rotUnit;
+      
+        if ( index === selected ) rD *= 3;
+        else if ( index === selected+1 ) rotPos += rotUnit;                                  
         
+        if (hovered) {
+            if ( index === hovered ) rD *= 1.8
+            if ( Math.abs(hovered-index) < 2 ) rotPos += rotUnit*0.525;
+        }
 
-        return d.map( (item, idx) => {
-                        let cDotR = dotR;
-                        let rot = rotUnit;
-
-                        //general step
-                        if( idx !== index ) {rotPos += rot; }
-
-                        //space for selected
-                        if ( idx === index ) { rotPos += 2*rot; cDotR *= 3; }
-                        if ( idx === index+1 ) {rotPos += rot; }
-                    
-                        //space for hovered
-                        if ( hoverIndex && idx === hoverIndex ) { cDotR *= 1.8; rotPos += rot*0.525; }
-                        if ( hoverIndex && idx === hoverIndex+1 ) { rotPos += rot*0.525; }
-
-                        const r = ds*dotR/3.14/2 + ( ext ? ext : 0 );
-
-                        const currentRotState = rotPos;
-                        
-                        return (
-                            <RadiusLine
-                                key={idx}
-                                opts={{ center, r, currentRotState }} >
-                                <DotContainer
-                                    onMouseEnter={ () => { setHoverIndex(idx) } }
-                                    onMouseOut={ () => setHoverIndex(null) }
-                                    onClick={ () => setIndex(idx) }
-                                    opts={{ cDotR, currentRotState, item }} >
-                                {item}
-                                </DotContainer>
-                            </RadiusLine>
-                        )
-                    });
-        /**/
+        return {
+            item, index, key: index,
+            radiusLineOpts: { center:{x: 400, y: 400}, ringRadius, rotPos },
+            dotContainerOpts: { rD, rotPos, item },
+        }
     }
 
+    const assignTemplate = ( member ) => {
+        return (
+            <RadiusLine
+                key={ member.key }
+                opts={ member.radiusLineOpts }
+            >
+                <DotContainer
+                    opts={ member.dotContainerOpts }
+                    onMouseEnter={ () => { setHovered( member.index ) } }
+                    onMouseOut={ () => setHovered(null) }
+                    onClick={ () => setSelected( member.index ) }
+                >
+
+                    { member.item }
+                    { children }
+                    
+                </DotContainer>
+            </RadiusLine>
+        )
+    }
+
+
+    return data.map( (item, index) => assignTemplate( initMember( item, index ) ) );
+}
+
+export default function({data, size}){
     return (
-        <Canvas size={ 800 } >
-            { circle( data.slice(31,66), indexOuter, setIndexOuter, hoverIndexOuter, setHoverIndexOuter, 30, true )  }
-            { circle( data.slice(0,31), indexInner, setIndexInner, hoverIndexInner, setHoverIndexInner, 10 ) }
+        <Canvas size={ size } >
+            <Ring data={data.slice(31,66)} size={size} dotRadius={40} ringRadiusAdj={30}/>
+            <Ring data={data.slice(0,31)} size={size} dotRadius={40} ringRadiusAdj={10}/>
         </Canvas>
     );
-    
 }
 
 
 
-const Canvas = styled.div`
+//style descriptions had to be split due to performance issues
+const Canvas = styled.div.attrs(props =>({
+    style : {
+        width: props.size,
+        height: props.size,
+    },
+}))`
     background-color: rgb(37, 37, 37);
     position: relative;
     display: block;
     position: absolute;
-    width: ${ props => props.size }px;
-    height: ${ props => props.size }px;
 `;
 
-const RadiusLine = styled.div`
+
+const RadiusLine = styled.div.attrs(props =>({
+    style : {
+        height: props.opts.ringRadius,
+        left: props.opts.center.x,
+        bottom: props.opts.center.y,
+        transform: `rotate(${props.opts.rotPos}deg)`,
+    },
+}))`
     position: absolute;
     display: block;
     background-color: grey;
     width: 0;
-    height: ${ props => props.opts.r }px;
-    left: ${ props => props.opts.center.x}px;
-    bottom: ${props => props.opts.center.y}px;
-    transform: rotate(${ props => props.opts.currentRotState }deg);
-
     transform-origin: bottom right;
     transition: all 0.8s ease-out;
 `;
 
-const DotContainer = styled.div`
+const DotContainer = styled.div.attrs(props =>({
+    style : {
+        width: props.opts.rD,
+        height: props.opts.rD,
+        left: props.opts.rD/-2,
+        top: props.opts.rD/-2,
+        fontSize : props.opts.rD*0.4,
+        transform: `rotate(${-props.opts.rotPos}deg)`,
+        backgroundImage: `url("https://www.countryflags.io/${props.opts.item.substring(0,2) }/flat/64.png")`,
+    },
+}))`
     position: relative;
     border-radius: 50%;
     display: grid;
@@ -98,20 +117,11 @@ const DotContainer = styled.div`
     color: white;
     padding: 2px;
     border: 2px solid white;
-    width: ${ props => props.opts.cDotR }px;
-    height: ${ props => props.opts.cDotR }px;
-    left: ${ props => props.opts.cDotR/-2 }px;
-    top: ${ props => props.opts.cDotR/-2 }px;
-    font-size : ${ props => props.opts.cDotR*0.4 }px;
-    transform: rotate(${ props => -props.opts.currentRotState }deg);
     font-weight: 800;
     background-position: center;
     background-repeat: no-repeat;
     background-size : 170%;
-    background-image: url("https://www.countryflags.io/${ props => props.opts.item.substring(0,2) }/flat/64.png");
-
     transition: all 0.2s ease-in;
-
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
     -webkit-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
