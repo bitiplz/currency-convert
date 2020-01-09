@@ -41,9 +41,9 @@ function AppProvider({children}) {
     currencies:[],
     history : [],
     selection:{
-      from: "HUF",
-      to:"BMD",
-      amount:0,
+      from: "",
+      to:"",
+      amount:1,
     },
   });
 

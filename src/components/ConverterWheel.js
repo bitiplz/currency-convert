@@ -23,7 +23,7 @@ export default ( props ) => {
 
   const onRatesFetched = res => {
     fx.rates = res.data.rates;
-    dispatchAction({ type: CURRENCIES_FETCHED, currencies : Object.keys( fx.rates ) })
+    dispatchAction({ type: CURRENCIES_FETCHED, currencies : Object.keys( fx.rates ).slice(0,40) })
   }
 
   return (
@@ -35,11 +35,11 @@ export default ( props ) => {
           display: 'flex',
         }}
       >
-        <AbsolutePane h={650} style={{  }} >
+        <AbsolutePane h={800} style={{  }} >
           <Magnet id="MAGNET-for_debug-remove_this_id">
             <Glow/>
-            <WheelSelect data={ currencies.slice(31,70) } value={ from } onChange={ v => setSelection({ from: v }) } dotRadius={40} ringRadiusAdj={ 10 } />
-            <WheelSelect data={ currencies.slice(0,30) } value={ to } onChange={ v => setSelection({ to: v }) } dotRadius={40} ringRadiusAdj={ 30 } />
+            <WheelSelect data={ currencies } value={ from } onChange={ v => setSelection({ from: v }) } dotRadius={40} ringRadiusAdj={ 10 } />
+            <WheelSelect data={ currencies } value={ to } onChange={ v => setSelection({ to: v }) } dotRadius={40} ringRadiusAdj={ 55 } />
             <div
               style={{
                 width: '300px',
@@ -104,7 +104,7 @@ const Glow = styled.div`
     height: 0;
     border-radius: 50%;
 
-    -webkit-box-shadow: 0px 0px 250px 300px white;
-    -moz-box-shadow: 0px 0px 250px 300px white;
-    box-shadow: 0px 0px 250px 250px white;
+    -webkit-box-shadow: 0px 0px 250px 300px gold;
+    -moz-box-shadow: 0px 0px 250px 300px gold;
+    box-shadow: 0px 0px 350px 300px gold;
 `;

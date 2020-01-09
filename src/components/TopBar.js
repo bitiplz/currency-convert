@@ -7,7 +7,6 @@ export default ({ title, middleSection, children }) => {
   return (
             <Bar>
                 <Logo>{title}</Logo>
-                <div/>
                 <MidSection>
                     {middleSection}
                 </MidSection>
@@ -30,11 +29,11 @@ const MidSection = styled.div`
 
 const Bar = styled.div`
     position: static;
-    background-color: rgba(0, 251, 255, 0.7);
+    background-color: gold;
     widh: 100%;
     height: 50px;
     display: grid;
-    grid-template-columns: 200px auto 240px auto ${ ({children})=> Array.isArray(children[2]) ? children[2].reduce(acc=>acc+"50px ","") : "50px "  };
+    grid-template-columns: 200px auto 240px ${ ({children})=> Array.isArray(children[2]) ? children[2].reduce(acc=>acc+"50px ","") : "50px "  };
 
     -webkit-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
     -moz-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);

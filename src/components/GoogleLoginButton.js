@@ -25,8 +25,6 @@ const logout = onLogout => {
 export default props => {
     const [store, dispatchAction] = useAppStore()
 
-    console.log("store.user", store)
-
     return store.user == null ?
             <button
                 onClick={ () => login( user => dispatchAction( { type: LOGIN, user } ) ) }

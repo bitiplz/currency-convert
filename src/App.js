@@ -22,7 +22,6 @@ function App() {
           <SaveSelection/>
         </TopBar>
         <History/>
-        <SaveSelection/>
       </UserContent>
 
       <ConverterWheel/>

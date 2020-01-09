@@ -5,15 +5,6 @@ const SDSA = 2;     //selectedDotSpaceAddition
 const HDSA = 1.2;   //hoveredDotSpaceAddition
 
 export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) => {
-    // in case of no data or store
-    const internalData = Array(12).fill('D').map((e,i)=>e+i);
-    const [internalSelected, setInternalSelected] = useState( 0 );
-    if ( !(data && value && onChange) ){
-        data = internalData;
-        value = internalSelected;
-        onChange = (v)=> setInternalSelected( v );
-    }
-
     //imp
     const selected = data.indexOf(value) || 0;
     const [hovered, setHovered] = useState( null );
@@ -109,8 +100,8 @@ const DotContainer = styled.div.attrs(props =>({
         top: props.opts.rD/-2,
         fontSize : props.opts.rD*0.4,
         transform: `rotate(${-props.opts.rotPos}deg)`,
-        //backgroundImage: `url("https://www.countryflags.io/${props.opts.item.substring(0,2) }/flat/64.png")`,
-        backgroundColor: props.index === props.selected ? 'rgba(120,120,120, 0.4)' : 'transparent',
+        backgroundImage: `url("https://www.countryflags.io/${props.opts.item.substring(0,2) }/flat/64.png")`,
+        //backgroundColor: props.index === props.selected ? 'rgba(120,120,120, 0.4)' : 'transparent',
         zIndex: props.index === props.hovered ? 100 : 1,
         /*boxShadow: `0 0 16px 6px ${randomColor()}`,*/
     },
@@ -122,7 +113,7 @@ const DotContainer = styled.div.attrs(props =>({
     align-items: center;
     color: black;
     padding: 2px;
-    border: 2px outset rgba(0, 251, 255, 1);
+    border: 2px outset white;
     background-position: center;
     background-repeat: no-repeat;
     background-size : 170%;
