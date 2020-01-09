@@ -1,7 +1,10 @@
 import React from 'react';
 import {AppProvider} from './components/AppProvider';
-import Converter from './components/Converter';
+import Converter, {SaveSelection} from './components/Converter';
+import ConverterWheel from './components/ConverterWheel';
 import TopBar from './components/TopBar';
+import History from './components/History';
+import UserContent from './components/UserContent';
 import GoogleLoginButton from './components/GoogleLoginButton'; 
 import './app.css';
 
@@ -9,11 +12,21 @@ function App() {
 
   return (
     <AppProvider>
-      <TopBar auth title='Currency Wheel' >
-        <Converter />  
+      
+      <TopBar title='Currency Wheel' middleSection={ <Converter/> }>
         <GoogleLoginButton/>
       </TopBar>
-      <Converter />
+      
+      <UserContent>
+        <TopBar>
+          <SaveSelection/>
+        </TopBar>
+        <History/>
+        <SaveSelection/>
+      </UserContent>
+
+      <ConverterWheel/>
+
     </AppProvider>
   );
 }

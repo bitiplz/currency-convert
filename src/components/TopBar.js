@@ -2,20 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 import '../app.css';
 
-export default ({ title, auth, children }) => {
+export default ({ title, middleSection, children }) => {
 
   return (
             <Bar>
                 <Logo>{title}</Logo>
+                <div/>
+                <MidSection>
+                    {middleSection}
+                </MidSection>
                 <div/>
                 {children}
             </Bar>
         );
 }
 
+
 const Logo = styled.h2`
     margin: auto !important;
     color: white;
+`;
+
+const MidSection = styled.div`
+    margin: auto !important;
+    display: grid;
 `;
 
 const Bar = styled.div`
@@ -24,7 +34,7 @@ const Bar = styled.div`
     widh: 100%;
     height: 50px;
     display: grid;
-    grid-template-columns: 200px auto ${ ({children, auth})=>children[2].reduce(acc=>acc+"50px ","")};
+    grid-template-columns: 200px auto 240px auto ${ ({children})=> Array.isArray(children[2]) ? children[2].reduce(acc=>acc+"50px ","") : "50px "  };
 
     -webkit-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
     -moz-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);

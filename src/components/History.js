@@ -21,9 +21,6 @@ function History( props ) {
     }
 
   return (
-        <UserContent>
-                <button onClick={ props.onSave } >Save current conversion</button>
-                <i> Check last 20 conversions below. Click to restore.</i>
                 <ul style={{maxHeight: '200px', overflow: 'auto'}} >
                         { store.history.map( (item, idx) => (
                             <li height='25px' button onClick={ ()=>{ props.onSelect( item ) } } >
@@ -31,7 +28,6 @@ function History( props ) {
                             </li>
                         ))}
                 </ul>
-        </UserContent>
   );
 }
 
