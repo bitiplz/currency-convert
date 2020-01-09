@@ -8,6 +8,7 @@ import WheelSelect from './WheelSelect';
 
 import styled from 'styled-components';
 import '../app.css';
+import { Redirect } from 'react-router-dom';
 
 function Converter( props ) {
 
@@ -64,11 +65,69 @@ function Converter( props ) {
         }}
       >
         <AbsolutePane h={600}>
-          <Magnet>
-            <WheelSelect data={ currencies.slice(31,70) } value={ from } onChange={ v => setTo( v ) } dotRadius={40} ringRadiusAdj={ 10 } />
+          <Magnet id="MAGNET-for_debug-remove_this_id">
+            <Glow/>
+            <WheelSelect data={ currencies.slice(31,70) } value={ from } onChange={ v => setFrom( v ) } dotRadius={40} ringRadiusAdj={ 10 } />
             <WheelSelect data={ currencies.slice(0,30) } value={ to } onChange={ v => setTo( v ) } dotRadius={40} ringRadiusAdj={ 30 } />
+            <div
+              style={{
+                width: '300px',
+                height: '150px',
+                display: 'grid',
+                position: 'absolute',
+                top: '-20px',
+                right: '-150px',
+                textAlign: 'center',
+              }}
+            >
+              <label
+                style={{
+                  display:'block',
+                  color: 'rgb(66,66,66)',
+                  fontSize: '150px',
+                  width: '100%',
+                  alignSelf: 'center',
+                  fontFamily: `'Do Hyeon', sans-serif`,
+                }}
+              >
+                { currencies.length && amount ? fx.convert( amount, { from, to } ).toFixed(2) : "" }
+              </label>
+              <label
+                style={{
+                  display:'block',
+                  color: 'rgb(66,66,66)',
+                  fontSize: '150px',
+                  width: '100%',
+                  alignSelf: 'center',
+                  fontFamily: `'Do Hyeon', sans-serif`,
+                }}
+              >
+                { /*currencies.length && amount ? fx.convert( amount, { from, to } ).toFixed(2) : ""*/ }
+                {/*'999K'*/} 
+              </label>
+              <label
+                style={{
+                  display:'block',
+                  color: 'rgb(66,66,66)',
+                  fontSize: '20px',
+                  width: '100%',
+                  alignSelf: 'center',
+                  fontFamily: `'Do Hyeon', sans-serif`,
+                }}
+              >
+                { /*currencies.length && amount ? fx.convert( amount, { from, to } ).toFixed(2) : ""*/ }
+                1.123.456.789,10 
+              </label>
+            </div>
           </Magnet>
         </AbsolutePane>
+
+        <AbsolutePane h={200}>
+          <Magnet id="MAGNET-for_debug-remove_this_id">
+            <WheelSelect dotRadius={50} ringRadiusAdj={ 10 } />
+          </Magnet>
+        </AbsolutePane>
+
       </div>  
 
       </div>
@@ -92,4 +151,14 @@ const Magnet = styled.div`
     height: 0;
     align-self: center;
     margin: auto;
+`;
+
+const Glow = styled.div`
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+
+    -webkit-box-shadow: 0px 0px 250px 300px white;
+    -moz-box-shadow: 0px 0px 250px 300px white;
+    box-shadow: 0px 0px 250px 250px white;
 `;

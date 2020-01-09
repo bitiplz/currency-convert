@@ -4,8 +4,27 @@ import styled from 'styled-components';
 const SDSA = 2;     //selectedDotSpaceAddition
 const HDSA = 1.2;   //hoveredDotSpaceAddition
 
-export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) => {
+const randomColor = () => {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++)
+      color += letters[Math.floor(Math.random() * 16)];
+    
+    return color;
+}
 
+
+export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) => {
+    // in case of no data or store
+    const internalData = Array(12).fill('D').map((e,i)=>e+i);
+    const [internalSelected, setInternalSelected] = useState( 0 );
+    if ( !(data && value && onChange) ){
+        data = internalData;
+        value = internalSelected;
+        onChange = (v)=> setInternalSelected( v );
+    }
+
+    //imp
     const selected = data.indexOf(value) || 0;
     const [hovered, setHovered] = useState( null );
 
@@ -51,6 +70,7 @@ export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) =
                     { member.item }
                     { children }
                     
+                    
                 </DotContainer>
             </RadiusLine>
         )
@@ -58,9 +78,9 @@ export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) =
 
 
     return (
-        <Magnet id="anchor">
+        <div>
             {data.map( (item, index) => template( member( item, index ) ) )}
-        </Magnet>
+        </div>
     );
 }
 
@@ -97,8 +117,10 @@ const DotContainer = styled.div.attrs(props =>({
         top: props.opts.rD/-2,
         fontSize : props.opts.rD*0.4,
         transform: `rotate(${-props.opts.rotPos}deg)`,
-        backgroundImage: `url("https://www.countryflags.io/${props.opts.item.substring(0,2) }/flat/64.png")`,
+        //backgroundImage: `url("https://www.countryflags.io/${props.opts.item.substring(0,2) }/flat/64.png")`,
+        backgroundColor: props.index === props.selected ? 'rgba(120,120,120, 0.4)' : 'transparent',
         zIndex: props.index === props.hovered ? 100 : 1,
+        /*boxShadow: `0 0 16px 6px ${randomColor()}`,*/
     },
 }))`
     position: relative;
@@ -106,17 +128,11 @@ const DotContainer = styled.div.attrs(props =>({
     display: grid;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: black;
     padding: 2px;
-    border: 2px solid white;
-    font-weight: 800;
+    border: 2px outset rgba(0, 251, 255, 1);
     background-position: center;
     background-repeat: no-repeat;
     background-size : 170%;
     transition: all 0.2s ease-in;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
-    -webkit-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
-    -moz-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
-    box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
 `;
