@@ -4,16 +4,6 @@ import styled from 'styled-components';
 const SDSA = 2;     //selectedDotSpaceAddition
 const HDSA = 1.2;   //hoveredDotSpaceAddition
 
-const randomColor = () => {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++)
-      color += letters[Math.floor(Math.random() * 16)];
-    
-    return color;
-}
-
-
 export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) => {
     // in case of no data or store
     const internalData = Array(12).fill('D').map((e,i)=>e+i);
@@ -36,12 +26,14 @@ export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) =
         let rD = dotRadius; 
         rotPos += rotUnit;
       
-        if ( index === selected ) rD *= 3;
+        if ( index === selected ) {rD *= 3; rotPos += rotUnit }
         else if ( index === selected+1 ) rotPos += rotUnit;                                  
         
-        if (hovered) {
+        if (hovered != null) {
+            const d = Math.abs(hovered-index)
+            const s = Math.abs(hovered-selected)
             if ( index === hovered ) rD *= 1.8
-            if ( Math.abs(hovered-index) < 2 ) rotPos += rotUnit*0.525;
+            if ( d < 2 && s > 1 ) rotPos += rotUnit*0.525;
         }
 
         return {
@@ -62,7 +54,7 @@ export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) =
                 <DotContainer
                     value={ member.value }
                     opts={ member.dotContainerOpts }
-                    onMouseEnter={ () => { setHovered( member.index ) } }
+                    onMouseEnter={ () => { if (member.index !== selected) setHovered( member.index ) } }
                     onMouseOut={ () => setHovered(null) }
                     onClick={ () => onChange( member.item ) }
                 >

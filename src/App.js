@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
-import Login from './components/Login';
+import React from 'react';
+import {AppProvider} from './components/AppProvider';
 import Converter from './components/Converter';
 import TopBar from './components/TopBar';
+import GoogleLoginButton from './components/GoogleLoginButton'; 
 import './app.css';
 
 function App() {
 
-  const [user, setUser] = useState( null );
-
   return (
-    <div className="section">
+    <AppProvider>
       <TopBar auth title='Currency Wheel' >
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>Log In</button>
+        <Converter />  
+        <GoogleLoginButton/>
       </TopBar>
-      <Login user={ user } onLogin={ setUser } />
-      <Converter user={ user } />
-    </div>
+      <Converter />
+    </AppProvider>
   );
 }
 
