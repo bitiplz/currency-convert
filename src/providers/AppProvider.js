@@ -1,5 +1,5 @@
 import React from 'react';
-import { LOGIN, LOGOUT, CHANGE_SELECTION, CURRENCIES_FETCHED, HISTORY_CHANGED, SAVE_SELECTION } from './ActionTypes';
+import { LOGIN, LOGOUT, CHANGE_SELECTION, CURRENCIES_FETCHED, HISTORY_CHANGED, SAVE_SELECTION, SET_FOCUS } from './ActionTypes';
 import '../app.css';
 
 const AppContext = React.createContext();
@@ -27,6 +27,9 @@ function appReducer( state, action ) {
     case SAVE_SELECTION: {
       return state
     }
+    case SET_FOCUS: {
+      return {...state, focused: action.focused }
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)
     }
@@ -40,6 +43,7 @@ function AppProvider({children}) {
     user:null,
     currencies:[],
     history : [],
+    focused : 'from',
     selection:{
       from: "",
       to:"",

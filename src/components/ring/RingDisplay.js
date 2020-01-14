@@ -38,8 +38,6 @@ export const calculateRadius = sizes => {
 const calculateAnglesAndRadius = (sizes, startIndex) => {
   if (sizes.length < 2) return [0, [0]];
 
-  console.log(startIndex)
-
   const sum = sizes.reduce((acc, n) => acc + n, 0);
   const avg = sum / sizes.length;
   const radius = avg / (2 * Math.sin(Math.PI / sizes.length));

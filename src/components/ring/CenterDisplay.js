@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Focusable from '../shared/Focusable';
 
 const shortFormat = ( n ) => {
     if ( typeof(n) !== 'number' ) return 0
@@ -39,7 +40,9 @@ const separatedFormat = ( n ) => {
 export default function({amount, value, from, to}) {
     return (
       <CenterDisplayStyled>
-        <FlagIndicator country={from} />
+        <Focusable value='from'>
+          <FlagIndicator country={from} />
+        </Focusable>
         <ExactValue>
           <strong>
             { separatedFormat( amount )[0] }
@@ -61,7 +64,9 @@ export default function({amount, value, from, to}) {
             { to }
           </strong>
         </ExactValue>
-        <FlagIndicator country={to}/>
+        <Focusable value='to'>
+          <FlagIndicator country={to} />
+        </Focusable>
       </CenterDisplayStyled>
     );
 }

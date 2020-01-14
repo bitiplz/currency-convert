@@ -35,6 +35,11 @@ export default ( props ) => {
     dispatchAction({ type: CURRENCIES_FETCHED, currencies : Object.keys( fx.rates ) })
   }
 
+  const target = {
+    value: store.focused === 'from' ? from : to,
+    onChange: store.focused === 'from' ? v => setSelection({ from: v }) : v => setSelection({ to: v })
+  }
+
   return (
     <div
         style={{
@@ -47,7 +52,7 @@ export default ( props ) => {
         <AbsolutePane h={800} style={{  }} >
           <Magnet id="MAGNET-for_debug-remove_this_id">
             <Glow/>
-            <WheelSelect data={ currencies } value={ to } onChange={ v => setSelection({ to: v }) } splitBy={30} />
+            <WheelSelect data={ currencies } value={ target.value } onChange={ target.onChange } splitBy={30} />
             <div style={{ position:'absolute', width:0, height:0, left:'-130px', top:'-150px' }} >
               <CenterDisplay amount={ amount } from={ from } to={ to } value={ currencies.length ? fx.convert( amount, { from, to } ) : "" } />
             </div>

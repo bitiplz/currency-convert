@@ -94,8 +94,6 @@ export default ({ data, value, onChange, splitBy }) => {
         ring = applyEffects( ring, selected, hovered )
     })
 
-    console.log( "data",data )
-
     const ring = data => <RingDisplay
                             itemSize={ data.map( item => item.size ) }
                             startIndex={ selected ? selected.localIndex : 0 }
