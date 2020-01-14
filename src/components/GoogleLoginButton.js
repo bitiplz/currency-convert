@@ -5,6 +5,9 @@ import { LOGIN, LOGOUT } from '../providers/ActionTypes';
 import { useAppStore } from '../providers/AppProvider';
 
 firebase.initializeApp( firebaseConfig );
+firebase.auth().onAuthStateChanged( user => {
+    window.localStorage.setItem('currency-converter-user', user)
+});
 
 const login = onLogin => {
   firebase
@@ -21,6 +24,17 @@ const logout = onLogout => {
         .then( onLogout )
         .catch(err => {});
 }
+
+/*
+firebase.auth().onAuthStateChanged( user => {
+        if (user) {
+            dispatchAction( { type: LOGIN, user } )
+          } else {
+            dispatchAction( { type: LOGOUT, user:null } )
+          }
+    });
+
+*/
 
 export default props => {
     const [store, dispatchAction] = useAppStore()

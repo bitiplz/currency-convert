@@ -52,7 +52,7 @@ function appReducer( state, action ) {
 function AppProvider({children}) {
 
   const state = React.useReducer(  appReducer, {
-    user:null,
+    user: window.localStorage.getItem('currency-converter-user'),
     currencies:[],
     history : [],
     focused : 'from',
