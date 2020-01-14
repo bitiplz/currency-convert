@@ -9,6 +9,8 @@ import GoogleLoginButton from "./components/GoogleLoginButton";
 import styled from "styled-components";
 import "./app.css";
 
+import CenterDisplay from './components/ring/CenterDisplay';
+
 function App() {
 
   return (

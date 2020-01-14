@@ -3,14 +3,14 @@ import styled from "styled-components";
 
 
 //todo:template,distmods
-export default function({ children, itemSize, distMods, startIndex, offset, square, overflow }) {
+export default function({ children, itemSize, distMods, startIndex, offset, square, overflow, focused }) {
 
   const [items, sizes, start] = correctProps(children, itemSize, startIndex);
   const [radius, angles] = calculateAnglesAndRadius(sizes, start);
 
 
   return items.length ? (
-    <List size={ radius*2 } offset={ offset /*todo:better offset*/ } >
+    <List size={ radius*2 } offset={ offset /*todo:better offset*/ } focused={focused}>
 
       {items.map((item, i) => (
         <Anchor key={i} size={sizes[i]} r={radius} a={angles[i]}>
@@ -92,14 +92,16 @@ const List = styled.ul.attrs(props => ({ style: {
 `;
 */
 
-const List = styled.ul`
+const List = styled.ul.attrs(props => ({ style: {
+  zIndex: props.focused ? 50 : 1,
+}}))`
     width: 0px;
     height: 0px;
     position: absolute;
     margin: 0;
     border-radius: 50%;
     &:hover {
-      z-index: 100;
+      z-index: 25;
     }
 `;
 

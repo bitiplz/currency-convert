@@ -3,10 +3,10 @@ import styled from "styled-components";
 import RingDisplay from "./RingDisplay";
 
 const ITEM_SIZE = 36;
-const ACTIVE_ITEM_SIZE = 100;
-const ITEM_SIZE_WITH_ACTIVE = ITEM_SIZE *0.96;
+const ACTIVE_ITEM_SIZE = 70;
+const ITEM_SIZE_WITH_ACTIVE = ITEM_SIZE *0.975;
 const ITEM_SIZE_WITH_HOVER = ITEM_SIZE *0.93;
-const ITEM_SIZE_WITH_ACTIVE_AND_HOVER = ITEM_SIZE *0.86;
+const ITEM_SIZE_WITH_ACTIVE_AND_HOVER = ITEM_SIZE *0.89;
 const HOVERED_SIZES = [
     ITEM_SIZE*1.25,
     ITEM_SIZE*1.50,
@@ -14,6 +14,13 @@ const HOVERED_SIZES = [
     ITEM_SIZE*1.50,
     ITEM_SIZE*1.25,
 ]
+
+const isRingFocused = ( data, selected, hovered ) => {
+    const isSelected = selected && data.find( item => item === selected )
+    const isHovered = hovered && data.find( item => item.index === hovered.index )
+
+    return isSelected || isHovered
+}
 
 const applyResizeEffect = ( data, selected, hovered ) => {
     let newSize = ITEM_SIZE
@@ -91,7 +98,9 @@ export default ({ data, value, onChange, splitBy }) => {
 
     const ring = data => <RingDisplay
                             itemSize={ data.map( item => item.size ) }
-                            startIndex={ selected ? selected.localIndex : 0 } >
+                            startIndex={ selected ? selected.localIndex : 0 }
+                            focused={ isRingFocused( data, selected, hovered ) }
+                        >
                                 { data.map( item =>
                                     <Flag 
                                         value={ item.value }

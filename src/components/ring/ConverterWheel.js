@@ -48,7 +48,9 @@ export default ( props ) => {
           <Magnet id="MAGNET-for_debug-remove_this_id">
             <Glow/>
             <WheelSelect data={ currencies } value={ to } onChange={ v => setSelection({ to: v }) } splitBy={30} />
-            <CenterDisplay value={ currencies.length ? fx.convert( amount, { from, to } ) : "" } />
+            <div style={{ position:'absolute', width:0, height:0, left:'-130px', top:'-150px' }} >
+              <CenterDisplay amount={ amount } from={ from } to={ to } value={ currencies.length ? fx.convert( amount, { from, to } ) : "" } />
+            </div>
           </Magnet>
         </AbsolutePane>
   
