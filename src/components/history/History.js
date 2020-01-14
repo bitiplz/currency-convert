@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { HISTORY_CHANGED } from './ActionTypes';
-import UserContent from './UserContent';
+import { HISTORY_CHANGED } from '../../providers/ActionTypes';
+import UserContent from '../shared/UserContent';
 import * as firebase from 'firebase';
-import { useAppStore } from './AppProvider';
-import '../app.css';
+import { useAppStore } from '../../providers/AppProvider';
+import '../../app.css';
 
 function History( props ) {
     

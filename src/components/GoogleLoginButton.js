@@ -1,8 +1,8 @@
 import React from 'react';
 import * as firebase from 'firebase';
 import firebaseConfig from '../apis/firebaseConfig';
-import { LOGIN, LOGOUT } from './ActionTypes';
-import { useAppStore } from './AppProvider';
+import { LOGIN, LOGOUT } from '../providers/ActionTypes';
+import { useAppStore } from '../providers/AppProvider';
 
 firebase.initializeApp( firebaseConfig );
 

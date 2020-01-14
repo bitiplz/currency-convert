@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useAppStore } from './AppProvider';
-import { CHANGE_SELECTION, CURRENCIES_FETCHED, SAVE_SELECTION } from './ActionTypes';
+import { useAppStore } from '../providers/AppProvider';
+import { CHANGE_SELECTION, CURRENCIES_FETCHED, SAVE_SELECTION } from '../providers/ActionTypes';
 import fx from 'money';
 import fetchRates from '../apis/oexRates'
 import CurrencyList from './CurrencyList'

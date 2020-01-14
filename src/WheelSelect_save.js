@@ -64,7 +64,6 @@ export default function({data, slice, onChange}){
                                 onClick={ () => {
                                     setIndex(idx);
                                     setRot( wholeRot + ( Math.abs(currentRotState)%360 > 180 ? 360-currentRotState : -currentRotState ) );
-                                    console.log(wholeRot, currentRotState, 360-currentRotState)
                                 } }
                             >
                                 {idx}

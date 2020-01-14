@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
+import RingDisplay from './RingDisplay';
 
 const SDSA = 2;     //selectedDotSpaceAddition
 const HDSA = 1.2;   //hoveredDotSpaceAddition
@@ -59,13 +60,28 @@ export default ({ data, value, onChange, children, dotRadius, ringRadiusAdj }) =
         )
     }
 
+    const elements = Array(30).fill("").map((n, i) => <div key={i}>{i}</div>);
+    const sizes = Array(30).fill(30);
+    sizes.splice(12, 5, 40, 50, 70, 50, 40);
+    sizes[0] = 80;
 
     return (
         <div>
-            {data.map( (item, index) => template( member( item, index ) ) )}
+            <div>
+            <RingDisplay itemSize={sizes} >
+                { elements }
+            </RingDisplay>
+            </div>
         </div>
     );
 }
+
+/*
+            <div>
+                {data.map( (item, index) => template( member( item, index ) ) )}
+            </div>
+
+*/
 
 const Magnet = styled.div`
     position: relative;

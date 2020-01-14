@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppStore } from './AppProvider';
+import { useAppStore } from '../../providers/AppProvider';
 
 export default ({children}) => {
     const [store] = useAppStore()
