@@ -4,6 +4,10 @@ import '../app.css';
 
 const AppContext = React.createContext();
 
+function random(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 function appReducer( state, action ) {
 
   console.log( action )
@@ -19,7 +23,15 @@ function appReducer( state, action ) {
       return {...state, selection : action.selection}
     }
     case CURRENCIES_FETCHED: {
-      return {...state, currencies: action.currencies }
+      const data = action.currencies
+      return {...state,
+                currencies: data,
+                selection : {
+                  from:data[ random(data.length-1) ],
+                  to:data[ random(data.length-1) ],
+                  amount: random(10),
+                }
+            }
     }
     case HISTORY_CHANGED: {
       return {...state, history: action.history }

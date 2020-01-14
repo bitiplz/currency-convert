@@ -40,6 +40,8 @@ export default ( props ) => {
     onChange: store.focused === 'from' ? v => setSelection({ from: v }) : v => setSelection({ to: v })
   }
 
+  const calculatedAmount = currencies.length ? fx.convert( amount, { from, to } ) : 0
+
   return (
     <div
         style={{
@@ -54,7 +56,7 @@ export default ( props ) => {
             <Glow/>
             <WheelSelect data={ currencies } value={ target.value } onChange={ target.onChange } splitBy={30} />
             <div style={{ position:'absolute', width:0, height:0, left:'-130px', top:'-150px' }} >
-              <CenterDisplay amount={ amount } from={ from } to={ to } value={ currencies.length ? fx.convert( amount, { from, to } ) : "" } />
+              <CenterDisplay amount={ amount } from={ from } to={ to } value={ calculatedAmount } onAmountChange={ amount => setSelection({ amount }) } />
             </div>
           </Magnet>
         </AbsolutePane>

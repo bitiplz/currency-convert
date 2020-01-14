@@ -4,6 +4,7 @@ import { CHANGE_SELECTION, CURRENCIES_FETCHED, SAVE_SELECTION } from '../provide
 import fx from 'money';
 import fetchRates from '../apis/oexRates'
 import CurrencyList from './CurrencyList'
+import Focusable from './shared/Focusable'
 
 import '../app.css';
 
@@ -33,21 +34,25 @@ export default function Converter( props ) {
 
   return (
     <div>
-      <CurrencyList
-        data={ currencies }
-        selected={ from }
-        onSelect={ e => setSelection({ from: e.target.value }) }
-      />
+      <Focusable value='from'>
+        <CurrencyList
+          data={ currencies }
+          selected={ from }
+          onSelect={ e => setSelection({ from: e.target.value }) }
+        />
+      </Focusable>
       
       <input style={{ width: '50px' }} label="From" value={ amount ? amount : "" } onChange={ e => setSelection({ amount: e.target.value }) } />
       
       <input style={{ width: '50px' }} label="To" disabled value={ currencies.length && amount ? fx.convert( amount, { from, to } ).toFixed(2) : "" } />
       
-      <CurrencyList
-        data={ currencies }
-        selected={ to }
-        onSelect={ e => setSelection({ to: e.target.value }) }
-      />
+      <Focusable value='to'>
+        <CurrencyList
+          data={ currencies }
+          selected={ to }
+          onSelect={ e => setSelection({ to: e.target.value }) }
+        />
+      </Focusable>
 
     </div>
   );

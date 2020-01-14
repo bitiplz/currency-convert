@@ -23,8 +23,7 @@ const shortFormat = ( n ) => {
 
         case (n>=100) : return n.toFixed(1)
         case (n>=10) : return n.toFixed(2)
-        case (n>=0) : return n.toFixed(3)
-        default : return 0
+        default : return n.toFixed(2)
     }
 }
 
@@ -37,17 +36,14 @@ const separatedFormat = ( n ) => {
   return parts
 }
 
-export default function({amount, value, from, to}) {
+export default function({amount, value, from, to, onAmountChange}) {
     return (
       <CenterDisplayStyled>
-        <Focusable value='from'>
+        <Focusable bottom value='from'>
           <FlagIndicator country={from} />
         </Focusable>
         <ExactValue>
-          <strong>
-            { separatedFormat( amount )[0] }
-          </strong>
-            {',' + separatedFormat( amount )[1] + ' '}
+            <Amount value={ amount } onChange={ e => onAmountChange( e.target.value ) }></Amount>
           <strong>
             { from }
           </strong>
@@ -64,12 +60,24 @@ export default function({amount, value, from, to}) {
             { to }
           </strong>
         </ExactValue>
-        <Focusable value='to'>
+        <Focusable top value='to'>
           <FlagIndicator country={to} />
         </Focusable>
       </CenterDisplayStyled>
     );
 }
+
+const Amount = styled.input`
+  border: 0;
+  background-color: rgba(255,255,255,0.5);
+  margin-right: 5px;
+  border-radius: 10px;
+  height: 22px;
+  width: 100px;
+  text-align: center;
+  font-family: 'Do Hyeon', sans-serif;
+  color: rgb(66,66,66);
+`
 
 const CenterDisplayStyled = styled.div`
   position: relative;
@@ -106,6 +114,8 @@ const FlagIndicator = styled.div.attrs(props =>({
   background-repeat: repeat-x;
   background-size: 120px;
   //background-size: cover;
+  width: 100%;
   height: 100%;
   display: block;
+  position:relative;
 `
