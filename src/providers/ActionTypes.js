@@ -1,7 +1,7 @@
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
-export const CHANGE_SELECTION = 'CHANGE_SELECTION';
-export const CURRENCIES_FETCHED = 'CURRENCIES_FETCHED';
-export const HISTORY_CHANGED = 'HISTORY_CHANGED';
-export const SAVE_SELECTION = 'SAVE_SELECTION';
-export const SET_FOCUS = 'SET_FOCUS';
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+export const CHANGE_SELECTION = "CHANGE_SELECTION";
+export const CURRENCIES_FETCHED = "CURRENCIES_FETCHED";
+export const HISTORY_CHANGED = "HISTORY_CHANGED";
+export const SAVE_SELECTION = "SAVE_SELECTION";
+export const SET_FOCUS = "SET_FOCUS";

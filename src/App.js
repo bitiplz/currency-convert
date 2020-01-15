@@ -8,9 +8,9 @@ import UserContent from "./components/shared/UserContent";
 import GoogleLoginButton from "./components/GoogleLoginButton";
 import "./app.css";
 
-function App() {
-
+export default function() {
   return (
+
     <AppProvider>
       <TopBar title="Currency Wheel" middleSection={<Converter />}>
         <GoogleLoginButton />
@@ -20,10 +20,10 @@ function App() {
         <History />
       </UserContent>
 
-      <ConverterWheel />
-
+        <ConverterWheel size={620} />
+    
     </AppProvider>
+
   );
 }
 
-export default App;

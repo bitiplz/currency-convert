@@ -18,15 +18,13 @@ export default ({children, value, top, bottom}) => {
             </FocusBorder>
 }
 
-const FocusBorder = styled.div.attrs(props =>({
-    style : {
-        backgroundColor: props.focused ? 'rgba(66,66,66, 0.1)' : 'transparent',
-    },
-  }))`
-  display:inline-block;
-  position:relative;
-  height: 100%;
-  //border: 1px solid grey;
+const FocusBorder = styled.div.attrs(({focused=false}) =>({ style : {
+    backgroundColor: focused ? 'rgba(66,66,66, 0.1)' : 'transparent',
+}}))`
+    display:inline-block;
+    position:relative;
+    height: 100%;
+    width: 100%;
 `
 
 const TopMarker = styled.div`
@@ -48,14 +46,3 @@ const BottomMarker = styled.div`
     margin: auto;
     margin-bottom: -10px;
 `
-
-  /*
-      display:block;
-    width: 10px;
-    height: 10px;
-    margin: auto;
-    margin-bottom: -10px;
-    background-color: black;
-    position:relative;
-  
-  */

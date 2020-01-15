@@ -1,39 +1,45 @@
 import React from "react";
 import styled from "styled-components";
 
-
-//todo:template,distmods
-export default function({ children, itemSize, distMods, startIndex, offset, square, overflow, focused }) {
-
+export default function({
+  children,
+  containerSize,
+  itemSize,
+  startIndex,
+  square,
+  overflow
+}) {
   const [items, sizes, start] = correctProps(children, itemSize, startIndex);
   const [radius, angles] = calculateAnglesAndRadius(sizes, start);
 
-
   return items.length ? (
-    <List size={ radius*2 } offset={ offset /*todo:better offset*/ } focused={focused}>
-
+    <List offset={containerSize / 2}>
       {items.map((item, i) => (
         <Anchor key={i} size={sizes[i]} r={radius} a={angles[i]}>
-            <Item size={sizes[i]} square={square} overflow={overflow} >
-                    {item}
-            </Item>
+          <Item size={sizes[i]} square={square} overflow={overflow}>
+            {item}
+          </Item>
         </Anchor>
       ))}
-
     </List>
   ) : null;
 }
 
+const calculateRadiusForItemSize = (n, itemSize) =>
+  itemSize / (2 * Math.sin(Math.PI / n));
 
-export const calculateRadius = sizes => {
+const calculateItemSizeForContainer = (n, containerSize) =>
+  (((1 / n) * (n - 3) * containerSize) / 2) * (2 * Math.sin(Math.PI / n));
+
+const calculateRadius = sizes => {
   if (sizes.length < 2) return 0;
 
   const sum = sizes.reduce((acc, n) => acc + n, 0);
   const avg = sum / sizes.length;
   const radius = avg / (2 * Math.sin(Math.PI / sizes.length));
 
-  return radius
-}
+  return radius;
+};
 
 const calculateAnglesAndRadius = (sizes, startIndex) => {
   if (sizes.length < 2) return [0, [0]];
@@ -51,12 +57,12 @@ const calculateAnglesAndRadius = (sizes, startIndex) => {
     (acc, abs) => [...acc, acc[acc.length - 1] + abs],
     [0]
   );
-  const turn = absAngles[startIndex]
-  const angles = absAngles.map( a => a - turn )
+  const turn = absAngles[startIndex];
+  const angles = absAngles.map(a => a - turn);
 
   return [radius, angles];
 };
-  
+
 const correctProps = (children, itemSize, startIndex) => {
   if (!children) return [[], []];
   if (!Array.isArray(children)) children = [children];
@@ -67,59 +73,51 @@ const correctProps = (children, itemSize, startIndex) => {
     itemSize = itemSize.filter(isValid).slice(0, children.length);
     children = children.slice(0, itemSize.length);
   } else {
-    itemSize = Array(children.length).fill(
-      isValid(itemSize) ? itemSize : 30
-    );
+    itemSize = Array(children.length).fill(isValid(itemSize) ? itemSize : 30);
   }
 
-  if ( !isValid(startIndex) || startIndex >= children.length )
-    startIndex = 0
+  if (!isValid(startIndex) || startIndex >= children.length) startIndex = 0;
 
   return [children, itemSize, startIndex];
 };
 
-/*
-const List = styled.ul.attrs(props => ({ style: {
-    width: `${props.size}px`,
-    height: `${props.size}px`,
-    top: `${props.offset}px`,
-    left: `${props.offset}px`
-}}))`
-    position: relative;
-    border-radius: 50%;
-`;
-*/
-
-const List = styled.ul.attrs(props => ({ style: {
-  zIndex: props.focused ? 50 : 1,
-}}))`
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    margin: 0;
-    border-radius: 50%;
-    &:hover {
-      z-index: 25;
-    }
+const List = styled.ul.attrs(({ focused = 0, offset = 0 }) => ({
+  style: {
+    zIndex: focused ? 50 : 1,
+    left: offset + "px",
+    top: offset + "px"
+  }
+}))`
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  &:hover {
+    z-index: 25;
+  }
 `;
 
-const Anchor = styled.div.attrs(props => ({ style: {
-    transform: `rotate(${props.a}deg) translate(0, ${-props.r}px) rotate(${-props.a}deg)`
+const Anchor = styled.div.attrs(({ a = 0, r = 0 }) => ({style:{
+    transform: `rotate(${a}deg) translate(0, ${-r}px) rotate(${-a}deg)`
 }}))`
-    width: 0px; height: 0px;
-    top: 50%; left: 50%;
-    position: absolute;
-    list-style: none;
-    transition: all ease-out 0.8s;
+  width: 0px;
+  height: 0px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  list-style: none;
+  transition: all ease-out 0.8s;
 `;
 
-const Item = styled.li.attrs(props => ({ style: {
-    width: `${props.size}px`,
-    height: `${props.size}px`,
-    left: `${props.size / -2}px`,
-    top: `${props.size / -2}px`,
-    overflow: props.overflow ? 'visible' : 'hidden',
-    borderRadius: props.square ? 'none' : '50%',
+const Item = styled.li.attrs(({ size = 20, overflow = false, square = false }) => ({ style: {
+      width: size + "px",
+      height: size + "px",
+      left: size / -2 + "px",
+      top: size / -2 + "px",
+      overflow: overflow ? "visible" : "hidden",
+      borderRadius: square ? "none" : "50%"
 }}))`
   transition: all linear 0.3s
   cursor: pointer;
@@ -129,3 +127,9 @@ const Item = styled.li.attrs(props => ({ style: {
     border: 3px solid white;
   }
 `;
+
+export {
+  calculateRadius,
+  calculateItemSizeForContainer,
+  calculateRadiusForItemSize
+};
