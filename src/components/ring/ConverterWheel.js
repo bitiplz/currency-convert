@@ -57,23 +57,25 @@ export default ({ size = 620 }) => {
     : 0;
 
   return (
-    <Magnet size={size}>
-      <Glow rad={size * 0.33} />
-      <WheelSelect
-        size={size}
-        data={currencies}
-        value={target.value}
-        onChange={target.onChange}
-        splitBy={30}
-      />
-      <CenterDisplay
-        size={size * 0.48}
-        amount={amount}
-        from={from}
-        to={to}
-        value={calculatedAmount}
-        onAmountChange={amount => setSelection({ amount })}
-      />
-    </Magnet>
+    <div style={{ width: 'fit-content', margin:'auto', paddingTop:'36px' }}>
+      <Magnet size={size}>
+        <Glow rad={size * 0.33} />
+        <WheelSelect
+          size={size}
+          data={currencies}
+          value={target.value}
+          onChange={target.onChange}
+          splitBy={30}
+        />
+        <CenterDisplay
+          size={size * 0.48}
+          amount={amount}
+          from={from}
+          to={to}
+          value={calculatedAmount}
+          onAmountChange={amount => setSelection({ amount })}
+        />
+      </Magnet>
+    </div>
   );
 };
