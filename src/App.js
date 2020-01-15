@@ -1,15 +1,12 @@
 import React from "react";
-import { AppProvider } from "./providers/AppProvider";
-import Converter, { SaveSelection } from "./components/Converter";
+import AppProvider from "./providers/AppProvider";
+import Converter from "./components/Converter";
 import ConverterWheel from "./components/ring/ConverterWheel";
 import TopBar from "./components/TopBar";
 import History from "./components/history/History";
 import UserContent from "./components/shared/UserContent";
 import GoogleLoginButton from "./components/GoogleLoginButton";
-import styled from "styled-components";
 import "./app.css";
-
-import CenterDisplay from './components/ring/CenterDisplay';
 
 function App() {
 
@@ -20,9 +17,6 @@ function App() {
       </TopBar>
 
       <UserContent>
-        <TopBar>
-          <SaveSelection />
-        </TopBar>
         <History />
       </UserContent>
 
@@ -32,18 +26,3 @@ function App() {
 }
 
 export default App;
-
-const Marker = styled.div`
-  height: 0;
-  width: 0;
-  padding: 2px;
-  border-radius: 50%;
-  background-color: blue;
-`;
-
-
-
-/*
-<ConverterWheel />
-
-*/

@@ -103,7 +103,7 @@ const List = styled.ul.attrs(props => ({ style: {
     }
 `;
 
-const Anchor = styled.li.attrs(props => ({ style: {
+const Anchor = styled.div.attrs(props => ({ style: {
     transform: `rotate(${props.a}deg) translate(0, ${-props.r}px) rotate(${-props.a}deg)`
 }}))`
     width: 0px; height: 0px;

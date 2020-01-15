@@ -94,13 +94,15 @@ export default ({ data, value, onChange, splitBy }) => {
         ring = applyEffects( ring, selected, hovered )
     })
 
-    const ring = data => <RingDisplay
+    const ring = (data, index) => <RingDisplay
+                            key={ index } 
                             itemSize={ data.map( item => item.size ) }
                             startIndex={ selected ? selected.localIndex : 0 }
                             focused={ isRingFocused( data, selected, hovered ) }
                         >
                                 { data.map( item =>
-                                    <Flag 
+                                    <Flag
+                                        key={ item.index } 
                                         value={ item.value }
                                         onMouseEnter={ () => { if ( item !== selected ) setHovered( item ) } }
                                         onMouseOut={ () => setHovered(null) }

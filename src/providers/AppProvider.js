@@ -2,6 +2,14 @@ import React from 'react';
 import { LOGIN, LOGOUT, CHANGE_SELECTION, CURRENCIES_FETCHED, HISTORY_CHANGED, SAVE_SELECTION, SET_FOCUS } from './ActionTypes';
 import '../app.css';
 
+import withFirebaseAuth from 'react-with-firebase-auth'
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import firebaseConfig from '../apis/firebaseConfig';
+
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const firebaseAppAuth = firebaseApp.auth();
+
 const AppContext = React.createContext();
 
 function random(max) {
@@ -14,6 +22,8 @@ function appReducer( state, action ) {
 
   switch (action.type) {
     case LOGIN: {
+      console.log(action.user.uid);
+      
       return {...state, user : action.user }
     }
     case LOGOUT: {
@@ -37,6 +47,7 @@ function appReducer( state, action ) {
       return {...state, history: action.history }
     }
     case SAVE_SELECTION: {
+      
       return state
     }
     case SET_FOCUS: {
@@ -49,10 +60,10 @@ function appReducer( state, action ) {
 
 }
 
-function AppProvider({children}) {
+function AppProvider( props ) {
 
   const state = React.useReducer(  appReducer, {
-    user: window.localStorage.getItem('currency-converter-user'),
+    user: null,
     currencies:[],
     history : [],
     focused : 'from',
@@ -65,7 +76,7 @@ function AppProvider({children}) {
 
   return (
     <AppContext.Provider value={ state } >
-      { children }
+      { props.children }
     </AppContext.Provider>
   )
 }
@@ -78,6 +89,6 @@ function useAppStore() {
   return context
 }
 
+export { useAppStore }
 
-
-export {AppProvider, useAppStore }
+export default AppProvider

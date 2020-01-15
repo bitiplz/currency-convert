@@ -5,14 +5,14 @@ import '../app.css';
 export default ({ title, middleSection, children }) => {
 
   return (
-            <Bar>
+            <TopBar>
                 <Logo>{title}</Logo>
                 <MidSection>
                     {middleSection}
                 </MidSection>
                 <div/>
                 {children}
-            </Bar>
+            </TopBar>
         );
 }
 
@@ -27,11 +27,12 @@ const MidSection = styled.div`
     display: grid;
 `;
 
-const Bar = styled.div`
+const TopBar = styled.div`
     position: static;
     background-color: gold;
     widh: 100%;
     height: 50px;
+    padding: 8px;
     display: grid;
     grid-template-columns: 200px auto 240px ${ ({children})=> Array.isArray(children[2]) ? children[2].reduce(acc=>acc+"50px ","") : "50px "  };
 

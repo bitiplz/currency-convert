@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppStore } from '../../providers/AppProvider';
-import { CHANGE_SELECTION, CURRENCIES_FETCHED, SAVE_SELECTION } from '../../providers/ActionTypes';
+import { CHANGE_SELECTION, CURRENCIES_FETCHED } from '../../providers/ActionTypes';
 import fx from 'money';
 import fetchRates from '../../apis/oexRates'
 import WheelSelect from './WheelSelect';

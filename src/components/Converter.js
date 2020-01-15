@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useAppStore } from '../providers/AppProvider';
 import { CHANGE_SELECTION, CURRENCIES_FETCHED, SAVE_SELECTION } from '../providers/ActionTypes';
 import fx from 'money';
+import * as firebase from 'firebase';
+import styled from 'styled-components'
 import fetchRates from '../apis/oexRates'
 import CurrencyList from './CurrencyList'
 import Focusable from './shared/Focusable'
@@ -11,7 +13,20 @@ import '../app.css';
 export const SaveSelection = ( props ) => {
   const [ store, dispatchAction ] = useAppStore()
 
-  return <button onClick={ () => dispatchAction({ type: SAVE_SELECTION }) } >Save</button>
+  return <SaveButton 
+        onClick={ () => {
+          firebase.firestore()
+            .collection('users')
+            .doc( store.user.uid )
+            .collection('history')
+            .add( store.selection );
+            console.log("asd")
+          }
+        }
+      >
+        +
+      </SaveButton>
+  //return <button onClick={ () => dispatchAction({ type: SAVE_SELECTION }) } >Save</button>
 }
 
 export default function Converter( props ) {
@@ -59,3 +74,18 @@ export default function Converter( props ) {
 }
 
 export { Converter };
+
+const SaveButton = styled.button`
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  color: black;
+  border: 1px dashed grey;
+  width: 100%;
+  line-height: 8px;
+  height: 11px;
+  &:hover {
+    border-color: 2px dashed black;
+    font-weight: 800;
+  }
+`
