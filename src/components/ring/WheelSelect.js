@@ -119,7 +119,7 @@ export default ({ data, value, onChange, splitBy }) => {
 
 const Flag = styled.div.attrs(props => ({ style: {
     fontSize: props.size * 0.35,
-    backgroundImage: `url("https://www.countryflags.io/${props.value.substring( 0, 2 )}/flat/64.png")`,
+    backgroundImage: `url("https://www.countryflags.io/${props.value.substring( 0, 2 )}/shiny/64.png")`,
 }}))`
     color: white;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
