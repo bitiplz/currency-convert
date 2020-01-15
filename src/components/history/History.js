@@ -57,12 +57,13 @@ const HistoryBar = styled.div`
     z-index: 10;
     position: static;
     display: grid;
-    background-color: rgba(255,215,0, 0.7);
+    background-color: rgba(255,255,255,0.8);
     width: 90%;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     margin: auto;
     padding: 8px;
+    padding-top: 0;
     height: fit-content;
 
     -webkit-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.66);
@@ -84,10 +85,10 @@ const HistoryTile = styled.div`
     padding: 4px;
     line-height: 10px;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(66, 66, 66, 0.2);
     &:hover{
         padding: 3px;
         border: 2px solid grey;
-        background-color: rgba(255, 255, 255, 0.8); 
+        background-color: rgba(66, 66, 66, 0.5); 
     }
 `

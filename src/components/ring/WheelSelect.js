@@ -104,6 +104,7 @@ export default ({ data, value, onChange, splitBy }) => {
                                     <Flag
                                         key={ item.index } 
                                         value={ item.value }
+                                        size={ item.size }
                                         onMouseEnter={ () => { if ( item !== selected ) setHovered( item ) } }
                                         onMouseOut={ () => setHovered(null) }
                                         onClick={ () => onChange( item.value ) }
@@ -117,9 +118,11 @@ export default ({ data, value, onChange, splitBy }) => {
 };
 
 const Flag = styled.div.attrs(props => ({ style: {
-    //fontSize: ITEM_SIZE * 0.4,
+    fontSize: props.size * 0.35,
     backgroundImage: `url("https://www.countryflags.io/${props.value.substring( 0, 2 )}/flat/64.png")`,
 }}))`
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     position: relative;
     border-radius: 50%;
     display: grid;
@@ -129,9 +132,8 @@ const Flag = styled.div.attrs(props => ({ style: {
     top: 0;
     justify-content: center;
     align-items: center;
-    color: black;
     padding: 2px;
-    border: 2px outset white;
+    //border: 2px solid white;
     background-position: center;
     background-repeat: no-repeat;
     background-size: 170%;

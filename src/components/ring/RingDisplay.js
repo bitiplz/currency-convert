@@ -126,6 +126,6 @@ const Item = styled.li.attrs(props => ({ style: {
   position: absolute;
   border: 1px solid black;
   &:hover {
-    border: 2px solid blue;
+    border: 3px solid white;
   }
 `;
