@@ -19,6 +19,8 @@ import "firebase/auth";
 import "firebase/firestore";
 import firebaseConfig from '../apis/firebaseConfig'
 
+const EXPECTED_CURRENCIES_COUNT = 162;
+
 firebase.initializeApp( firebaseConfig )
 
 const AppContext = React.createContext();
@@ -50,13 +52,13 @@ export default function(props) {
   },[])
 
   useEffect( ()=>{
-    dispatch({ type: FETCH_CURRENCIES })
-
-    fetchRates( ({data}) => {
-      dispatch({ type: CURRENCIES_FETCHED, currencies : data.rates })
-    })
-
-  },[]);
+    if ( state.currencies.length !== EXPECTED_CURRENCIES_COUNT ){
+      dispatch({ type: FETCH_CURRENCIES })
+      fetchRates( ({data}) =>
+          dispatch({ type: CURRENCIES_FETCHED, currencies : data.rates })
+      )
+    }
+  },[state.currencies]);
 
   useEffect(() => {   //TODO: test
     if (state.user){
