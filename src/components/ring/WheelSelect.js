@@ -72,6 +72,12 @@ export default ({ data, value, onChange, splitBy, size }) => {
   return containRings(data);
 };
 
+const correctIndex = data => index => {
+  index = index%data.length
+  index = index < 0 ? data.length+index : index
+  return index
+}
+
 const isRingFocused = (data, selected, hovered) => {
   const isSelected = selected && data.find(item => item === selected);
   const isHovered = hovered && data.find(item => item.index === hovered.index);
@@ -109,23 +115,8 @@ const applyHoverEffect = (data, hovered) => {
   const isHovered = hovered && data.find(item => item.index === hovered.index);
   if (!isHovered) return data;
 
-  const hoveredSizes = HOVERED_SIZES().filter(
-    (_, index) => hovered.localIndex + index < data.length
-  );
-  const fromIndex = hovered.localIndex - Math.floor(hoveredSizes.length / 2);
-  const hoveredElements = data.slice(
-    fromIndex,
-    fromIndex + hoveredSizes.length
-  );
-  const resizedElements = hoveredElements.map((item, index) => ({
-    ...item,
-    size: hoveredSizes[index]
-  }));
-  data.splice(
-    hovered.localIndex - Math.floor(resizedElements.length / 2),
-    resizedElements.length,
-    ...resizedElements
-  );
+  const i = correctIndex(data)
+  HOVERED_SIZES().forEach( (size, index) => data[ i( hovered.localIndex - 2 + index ) ].size = size )
 
   return data;
 };
