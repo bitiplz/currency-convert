@@ -17,7 +17,7 @@ export default function({
     <List offset={containerSize/2} focused={focused} >
       {items.map((item, i) => (
         <Anchor key={i} size={sizes[i]} r={radius} a={angles[i]}>
-          <Item size={sizes[i]} square={square} overflow={overflow}>
+          <Item size={sizes[i]} square={square} overflow={overflow.toString()}>
             {item}
           </Item>
         </Anchor>

@@ -22,9 +22,9 @@ export default ({ size = 620 }) => {
   };
 
   return (
-    <div style={{ width: 'fit-content', margin:'auto', paddingTop:'36px' }}>
+    <div style={{ width: 'fit-content', margin:'auto', paddingTop:'36px'  }}>
         <Magnet size={size}>
-          <Glow rad={size * 0.33} />
+          <Glow rad={size * 0.33}/>
             <WheelSelect
               size={size}
               data={currencies}
@@ -40,7 +40,7 @@ export default ({ size = 620 }) => {
               value={calculatedAmount}
               onAmountChange={amount => dispatch({ type: CHANGE_SELECTION, selection : {amount} }) }
             />
-        </Magnet>>
+        </Magnet>
     </div>
   );
 };

@@ -8,7 +8,7 @@ import {
   FETCH_HISTORY,
   HISTORY_CHANGED,
   SAVE_SELECTION,
-  SET_FOCUS
+  SET_FOCUS,
 } from "./ActionTypes";
 import "../app.css";
 import fetchRates from '../apis/oexRates'
@@ -84,7 +84,7 @@ export default function(props) {
   }, [state.user]);
 
   return (
-    <AppContext.Provider value={{state,dispatch}}>{props.children}</AppContext.Provider>
+    <AppContext.Provider value={{ state, theme:state.theme, dispatch }}>{props.children}</AppContext.Provider>
   );
 }
 

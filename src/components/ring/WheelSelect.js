@@ -98,7 +98,6 @@ const applyResizeEffect = (data, selected, hovered) => {
  
     if (isSelected && !isCovered) virtualCount += ACTIVE_ITEM_SIZE-1
     if (isHovered) virtualCount += getHoveredPatternSizes(1).reduce( (sum,n) => sum+n, -4 )
-    console.log("virtualCount", virtualCount)
  
     newSize = calculateItemSizeForRadius( virtualCount, calculateRadiusForItemSize( data.length, ITEM_SIZE) )
   }

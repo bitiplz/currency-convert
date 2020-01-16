@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import CountUp from "react-countup";
 import Focusable from "../shared/Focusable";
+import { useTheme } from '../../providers/ThemeProvider';
 
 export default function({ amount, value, from, to, onAmountChange, size }) {
   const [displayValue, suffix] = shortFormat(value);
+  const {theme} = useTheme() 
 
   return (
-    <CenterDisplayStyled size={size}>
+    <CenterDisplayStyled theme={theme} size={size}>
       <Focusable bottom value="from">
         <FlagIndicator country={from} />
       </Focusable>
@@ -108,7 +110,7 @@ const CenterDisplayStyled = styled.div.attrs(({ size = 300 }) => ({
   //background-color: rgb(210,210,210);
   //font-size: 20px;
   font-family: "Do Hyeon", sans-serif;
-  color: rgb(66, 66, 66);
+  color: ${ ({theme}) => theme.contrastColor };
   //border: 2px outset white;
   border-radius: 50%;
   overflow: hidden;
@@ -125,7 +127,6 @@ const Amount = styled.input`
   font-size: 1.2em;
   text-align: center;
   font-family: "Do Hyeon", sans-serif;
-  color: rgb(66, 66, 66);
 `;
 
 const DisplayValue = styled(CountUp)`

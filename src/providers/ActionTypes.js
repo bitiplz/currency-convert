@@ -7,3 +7,4 @@ export const HISTORY_CHANGED = "HISTORY_CHANGED";
 export const SAVE_SELECTION = "SAVE_SELECTION";
 export const SET_FOCUS = "SET_FOCUS";
 export const FETCH_CURRENCIES = "FETCH_CURRENCIES";
+export const CHANGE_THEME = "CHANGE_THEME";

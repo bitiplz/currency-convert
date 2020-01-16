@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../app.css';
+import { useTheme } from '../providers/ThemeProvider';
 
 export default ({ title, middleSection, children }) => {
 
+    const {theme} = useTheme() 
+
   return (
-            <TopBar>
-                <Logo>{title}</Logo>
+            <TopBar theme={ theme } >
+                <Logo theme={ theme } >{title}</Logo>
                 <MidSection>
                     {middleSection}
                 </MidSection>
@@ -19,7 +22,7 @@ export default ({ title, middleSection, children }) => {
 
 const Logo = styled.h2`
     margin: auto !important;
-    color: white;
+    color: ${ ({theme}) => theme.fancyColor };
 `;
 
 const MidSection = styled.div`
@@ -29,7 +32,7 @@ const MidSection = styled.div`
 
 const TopBar = styled.div`
     position: static;
-    background-color: gold;
+    background-color: ${ ({theme}) => theme.headerColor };
     widh: 100%;
     height: 50px;
     padding: 8px;
