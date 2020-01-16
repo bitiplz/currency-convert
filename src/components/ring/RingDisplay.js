@@ -123,7 +123,8 @@ const Item = styled.li.attrs(({ size = 20, overflow = false, square = false }) =
       overflow: overflow ? "visible" : "hidden",
       borderRadius: square ? "none" : "50%"
 }}))`
-  transition: all linear 0.4s
+  background-color: white;
+  transition: all 0.2s ease-in;
   cursor: pointer;
   position: absolute;
 `;
