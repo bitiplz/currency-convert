@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import RingDisplay, { calculateItemSizeForContainer } from "./RingDisplay";
+import RingDisplay, { calculateItemSizeForContainer, calculateRadiusForItemSize, calculateItemSizeForRadius } from "./RingDisplay";
 
 let ITEM_SIZE = 36;
 
 const ACTIVE_ITEM_SIZE = 2.5;
-const ITEM_SIZE_WITH_ACTIVE = 0.975;
-const ITEM_SIZE_WITH_HOVER = 0.93;
-const ITEM_SIZE_WITH_ACTIVE_AND_HOVER = 0.89;
-const HOVERED_SIZES = () => [1.25, 1.5, 2.0, 1.5, 1.25].map(s => ITEM_SIZE * s);
+const HOVERED_EFFECT_PATTERN = [1.25, 1.5, 2.0, 1.5, 1.25];
 
 export default ({ data, value, onChange, splitBy, size }) => {
   const [hovered, setHovered] = useState(null);
@@ -41,9 +38,7 @@ export default ({ data, value, onChange, splitBy, size }) => {
               key={item.index}
               value={item.value}
               size={item.size}
-              onMouseEnter={() => {
-                if (item !== selected) setHovered(item);
-              }}
+              onMouseEnter={() => setHovered(item)}
               onMouseOut={() => setHovered(null)}
               onClick={() => onChange(item.value)}
             >
@@ -80,6 +75,9 @@ const correctIndex = data => index => {
   return index
 }
 
+const getHoveredPatternSizes = v =>
+  HOVERED_EFFECT_PATTERN.map(s => (v || ITEM_SIZE) * s) 
+
 const isRingFocused = (data, selected, hovered) => {
   const isSelected = selected && data.find(item => item === selected);
   const isHovered = hovered && data.find(item => item.index === hovered.index);
@@ -89,18 +87,22 @@ const isRingFocused = (data, selected, hovered) => {
 
 const applyResizeEffect = (data, selected, hovered) => {
   let newSize = ITEM_SIZE;
-  const isSelected = selected && data.find(item => item === selected);
   const isHovered = hovered && data.find(item => item.index === hovered.index);
+  const isSelected = selected && data.find(item => item === selected);
 
-  if (isSelected) {
-    if (isHovered) {
-      newSize = ITEM_SIZE * ITEM_SIZE_WITH_ACTIVE_AND_HOVER;
-    } else {
-      newSize = ITEM_SIZE * ITEM_SIZE_WITH_ACTIVE;
-    }
-  } else if (isHovered) {
-    newSize = ITEM_SIZE * ITEM_SIZE_WITH_HOVER;
+  const hoveredIndexes = isHovered ? getHoveredPatternSizes().map((_,i)=> correctIndex(data)(hovered.localIndex-2+i) ) : []
+  const isCovered = isSelected && isHovered && hoveredIndexes.find( index => selected.localIndex === index )
+
+  if (isSelected || isHovered){
+    let virtualCount = data.length
+ 
+    if (isSelected && !isCovered) virtualCount += ACTIVE_ITEM_SIZE-1
+    if (isHovered) virtualCount += getHoveredPatternSizes(1).reduce( (sum,n) => sum+n, -4 )
+    console.log("virtualCount", virtualCount)
+ 
+    newSize = calculateItemSizeForRadius( virtualCount, calculateRadiusForItemSize( data.length, ITEM_SIZE) )
   }
+ 
 
   for (let i = 0; i < data.length; i++) data[i].size = newSize;
 
@@ -118,7 +120,7 @@ const applyHoverEffect = (data, hovered) => {
   if (!isHovered) return data;
 
   const i = correctIndex(data)
-  HOVERED_SIZES().forEach( (size, index) => data[ i( hovered.localIndex - 2 + index ) ].size = size )
+  getHoveredPatternSizes().forEach( (size, index) => data[ i( hovered.localIndex - 2 + index ) ].size = size )
 
   return data;
 };

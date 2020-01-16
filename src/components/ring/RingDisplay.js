@@ -29,6 +29,9 @@ export default function({
 const calculateRadiusForItemSize = (n, itemSize) =>
   itemSize / (2 * Math.sin(Math.PI / n));
 
+const calculateItemSizeForRadius = (n, radius) =>
+  radius * (2 * Math.sin(Math.PI / n));
+
 const calculateItemSizeForContainer = (n, containerSize) =>
   (((1 / n) * (n - 3) * containerSize) / 2) * (2 * Math.sin(Math.PI / n));
 
@@ -120,7 +123,7 @@ const Item = styled.li.attrs(({ size = 20, overflow = false, square = false }) =
       overflow: overflow ? "visible" : "hidden",
       borderRadius: square ? "none" : "50%"
 }}))`
-  transition: all linear 0.2s
+  transition: all linear 0.4s
   cursor: pointer;
   position: absolute;
 `;
@@ -128,5 +131,6 @@ const Item = styled.li.attrs(({ size = 20, overflow = false, square = false }) =
 export {
   calculateRadius,
   calculateItemSizeForContainer,
-  calculateRadiusForItemSize
+  calculateRadiusForItemSize,
+  calculateItemSizeForRadius
 };
