@@ -22,7 +22,7 @@ export default function({ amount, value, from, to, onAmountChange, size }) {
       <DisplayValue
         size={size}
         duration={1.2}
-        end={displayValue}
+        end={parseInt(displayValue)}
         suffix={suffix}
         preserveValue={true}
       />
@@ -139,14 +139,9 @@ const ExactValue = styled(CountUp)`
   display: block;
   text-align: center;
 `;
-const FlagIndicator = styled.div.attrs(({ size = 300, country = "" }) => ({
-  style: {
-    backgroundImage:
-      country !== ""
-        ? `url("https://www.countryflags.io/${country.substring(
-            0,
-            2
-          )}/shiny/64.png")`
+const FlagIndicator = styled.div.attrs(({ size = 300, country = "" }) => ({ style: {
+    backgroundImage: country !== ""
+        ? `url("https://www.countryflags.io/${country.substring( 0, 2 )}/shiny/64.png")`
         : "",
     backgroundSize: size / 2.5 + "px"
   }

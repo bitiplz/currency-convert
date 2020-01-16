@@ -1,66 +1,65 @@
-import React, { useEffect } from "react";
-import { HISTORY_CHANGED, CHANGE_SELECTION } from "../../providers/ActionTypes";
-import * as firebase from "firebase";
+import React from "react";
+import { CHANGE_SELECTION } from "../../providers/ActionTypes";
+import firebase from 'firebase/app';
 import { useAppStore } from "../../providers/AppProvider";
 import styled from "styled-components";
 import "../../app.css";
 
 export default function(props) {
-  const [store, dispatchAction] = useAppStore();
+    const {state, dispatch} = useAppStore()
 
-  useEffect(() => {
-    firebase
-      .firestore()
-      .collection("users")
-      .doc(store.user.uid)
-      .collection("history")
-      .onSnapshot(
-        historyData => {
-          const data = [];
-          historyData.forEach(item => data.push(item.data()));
-          dispatchAction({ type: HISTORY_CHANGED, history: data });
-        },
-        err => {
-          console.log(`Encountered error: ${err}`);
-        }
-      );
-  }, [store.user]);
+    return (
+        <HistoryBar>
+        <span>
+            <i>{ state.history.length ? 'Recent conversions:' : 'Loading conversion history..'}</i>
+        </span>
+        <Slots>
+          {
+            state.history.length
+            ? <HistoryTile>
+                <SaveSelection /> 
+              </HistoryTile>
+            : null  
+          } 
 
-  return (
-    <HistoryBar>
-      <span>
-        <i>Recent conversions:</i>
-      </span>
-      <Slots>
-        {store.history.map((item, index) => (
-          <HistoryTile
-            key={index}
-            onClick={() =>
-              dispatchAction({ type: CHANGE_SELECTION, selection: item })
-            }
-          >
-            {`${item.from}:${item.to}`}
-          </HistoryTile>
-        ))}
-        <HistoryTile>
-          <SaveSelection />
-        </HistoryTile>
-      </Slots>
-    </HistoryBar>
+          {
+            state.history.map((item, index) => (
+              <HistoryTile
+                key={index}
+                onClick={() =>
+                    dispatch({ type: CHANGE_SELECTION, selection: item })
+                }
+              >
+                {`${item.from}:${item.to}`}
+              </HistoryTile>
+            ))
+          }
+
+        </Slots>
+        </HistoryBar>
   );
 }
 
 const SaveSelection = ( props ) => {
-    const [ store, dispatchAction ] = useAppStore()
-  
+    const {state} = useAppStore()
+
+    const db = firebase.firestore()
+    const collection = db.collection('users').doc( state.user.uid ).collection('history')
+         
     return <SaveButton 
           onClick={ () => {
-            firebase.firestore()
-              .collection('users')
-              .doc( store.user.uid )
-              .collection('history')
-              .add( store.selection );
-            }
+                const newItem = { ...state.selection, date:Date.now() }
+
+                state.history.length < 10
+                  ? collection.add( newItem )
+                  : collection.orderBy('date','asc').limit(1).get().then( res => {
+                    db.runTransaction( t => {
+                        return t.get( res.docs[0].ref )
+                                .then( doc => t.update( doc.ref, newItem ) )
+                      }
+                    )
+                  })
+                }
           }
         >
           +

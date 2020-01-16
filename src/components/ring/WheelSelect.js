@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import RingDisplay, {
-  calculateRadiusForItemSize,
-  calculateItemSizeForContainer
-} from "./RingDisplay";
+import RingDisplay, { calculateItemSizeForContainer } from "./RingDisplay";
 
 let ITEM_SIZE = 36;
 
@@ -36,6 +33,7 @@ export default ({ data, value, onChange, splitBy, size }) => {
         itemSize={data.map(item => item.size)}
         startIndex={selected ? selected.localIndex : 0}
         containerSize={size}
+        focused={ isRingFocused( data, selected, hovered ) }
       >
         {data.map(item => (
           <Flag
@@ -177,12 +175,6 @@ const assignSize = arr =>
     (acc, ring) => [...acc, ring.map(item => ({ ...item, size: ITEM_SIZE }))],
     []
   );
-
-const calculateContainerSize = data =>
-  data.length
-    ? calculateRadiusForItemSize(data[data.length - 1].length, ITEM_SIZE) * 2 +
-      ITEM_SIZE
-    : 0;
 
 const calculateAndSetItemSize = (data, containerSize) =>
   (ITEM_SIZE = data.length

@@ -6,6 +6,7 @@ export default function({
   containerSize,
   itemSize,
   startIndex,
+  focused,
   square,
   overflow
 }) {
@@ -13,7 +14,7 @@ export default function({
   const [radius, angles] = calculateAnglesAndRadius(sizes, start);
 
   return items.length ? (
-    <List offset={containerSize / 2}>
+    <List offset={containerSize/2} focused={focused} >
       {items.map((item, i) => (
         <Anchor key={i} size={sizes[i]} r={radius} a={angles[i]}>
           <Item size={sizes[i]} square={square} overflow={overflow}>

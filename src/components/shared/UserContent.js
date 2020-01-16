@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppStore } from '../../providers/AppProvider';
 
 export default ({children}) => {
-    const [store] = useAppStore()
+    const {state} = useAppStore()
 
-    return store.user ? <div>{children}</div> : null
+    return state.user ? <div>{children}</div> : null
 }

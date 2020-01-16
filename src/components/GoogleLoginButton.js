@@ -1,35 +1,18 @@
 import React from "react";
-import * as firebase from "firebase";
-import { LOGIN, LOGOUT } from "../providers/ActionTypes";
+import firebase from 'firebase/app';
 import { useAppStore } from "../providers/AppProvider";
 
-const login = onLogin => {
-  firebase
-    .auth()
-    .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-    .then(res => onLogin(res.user))
-    .catch(err => {});
-};
-
-const logout = onLogout => {
-  firebase
-    .auth()
-    .signOut()
-    .then(onLogout)
-    .catch(err => {});
-};
-
 export default props => {
-  const [store, dispatchAction] = useAppStore();
+    const {state} = useAppStore()
 
-  return store.user == null ? (
+  return state.user == null ? (
     <button
-      onClick={() => login(user => dispatchAction({ type: LOGIN, user }))}
+      onClick={ () => firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()) }
     >
       Log In
     </button>
   ) : (
-    <button onClick={() => logout(() => dispatchAction({ type: LOGOUT }))}>
+    <button onClick={ () => firebase.auth().signOut() }>
       Log Out
     </button>
   );

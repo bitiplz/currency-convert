@@ -1,32 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppStore } from '../providers/AppProvider';
-import { CHANGE_SELECTION, CURRENCIES_FETCHED, SAVE_SELECTION } from '../providers/ActionTypes';
+import { CHANGE_SELECTION } from '../providers/ActionTypes';
 import fx from 'money';
-import * as firebase from 'firebase';
-import styled from 'styled-components'
-import fetchRates from '../apis/oexRates'
 import CurrencyList from './CurrencyList'
 import Focusable from './shared/Focusable'
 
-import '../app.css';
-
 export default function Converter( props ) {
 
-  const [ store, dispatchAction ] = useAppStore()
-
-  const {currencies, selection} = store
+  const {state, dispatch} = useAppStore()
+  const {currencies, selection} = state;
   const { from, to, amount } = selection;
-
-  useEffect( ()=>{ fetchRates( onRatesFetched ) },[]);
-
-  const setSelection = set => {
-    dispatchAction({ type: CHANGE_SELECTION, selection : Object.assign( selection, set ) })
-  }
-
-  const onRatesFetched = res => {
-    fx.rates = res.data.rates;
-    dispatchAction({ type: CURRENCIES_FETCHED, currencies : Object.keys( fx.rates ).slice(0,40) })
-  }
+  const calculatedAmount = currencies.length ? fx.convert(amount, { from, to }) : 0;
 
   return (
     <div>
@@ -34,19 +18,27 @@ export default function Converter( props ) {
         <CurrencyList
           data={ currencies }
           selected={ from }
-          onSelect={ e => setSelection({ from: e.target.value }) }
+          onSelect={ e => dispatch({ type: CHANGE_SELECTION, selection : { from: e.target.value } }) }
         />
       </Focusable>
       
-      <input style={{ width: '50px' }} label="From" value={ amount ? amount : "" } onChange={ e => setSelection({ amount: e.target.value }) } />
+      <input
+        style={{ width: '50px' }}
+        value={ amount ? amount : "" }
+        onChange={ e => dispatch({ type: CHANGE_SELECTION, selection : { amount: e.target.value } }) }
+      />
       
-      <input style={{ width: '50px' }} label="To" disabled value={ currencies.length && amount ? fx.convert( amount, { from, to } ).toFixed(2) : "" } />
+      <input
+        style={{ width: '50px' }}
+        disabled
+        value={ calculatedAmount }
+      />
       
       <Focusable value='to'>
         <CurrencyList
           data={ currencies }
           selected={ to }
-          onSelect={ e => setSelection({ to: e.target.value }) }
+          onSelect={ e => dispatch({ type: CHANGE_SELECTION, selection : { to: e.target.value } }) }
         />
       </Focusable>
 

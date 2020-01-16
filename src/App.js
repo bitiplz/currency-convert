@@ -10,20 +10,15 @@ import "./app.css";
 
 export default function() {
   return (
-
     <AppProvider>
       <TopBar title="Currency Wheel" middleSection={<Converter />}>
         <GoogleLoginButton />
       </TopBar>
-
       <UserContent>
         <History />
       </UserContent>
 
-        <ConverterWheel size={620} />
-    
+      <ConverterWheel size={620} />
     </AppProvider>
-
   );
 }
-

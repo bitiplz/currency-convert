@@ -7,11 +7,11 @@ export default function({ size = 150, children }){
             <div style={{ position: 'absolute', width: 0, height: 0, left: '50%', top: '50%', overflow: 'visible' }}>
                 <div style={{ position: 'relative', width: 0, height: 0, overflow: 'visible' }}>
                     {
-                        children.map( item => 
+                        children.map( (item, index) => 
                             {
                                 const offset = ( item.props.size || 0 ) 
                                 return (
-                                    <div style={{ position: 'absolute', width: offset+'px', height: offset+'px', left: -offset/2+'px', top: -offset/2+'px' }}>
+                                    <div key={index} style={{ position: 'absolute', width: offset+'px', height: offset+'px', left: -offset/2+'px', top: -offset/2+'px' }}>
                                         { item }
                                     </div>
                                 )

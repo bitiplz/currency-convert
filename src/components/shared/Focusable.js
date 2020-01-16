@@ -4,13 +4,13 @@ import { SET_FOCUS } from '../../providers/ActionTypes';
 import styled from 'styled-components';
 
 export default ({children, value, top, bottom}) => {
-    const [ store, dispatchAction ] = useAppStore()
+    const {state, dispatch} = useAppStore()
 
-    const isFocused = store.focused === value
+    const isFocused = state.focused === value
 
     return  <FocusBorder
                 focused={ isFocused }
-                onClick={ () => dispatchAction({ type: SET_FOCUS, focused : value }) }
+                onClick={ () => dispatch({ type: SET_FOCUS, focused : value }) }
             >
                 { isFocused && top ? <TopMarker/> : null }
                     {children}
