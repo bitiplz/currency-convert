@@ -29,6 +29,7 @@ export default ({ data, value, onChange, splitBy, size }) => {
   const ring = (data, index) => {
     return (
       <RingDisplay
+        overflow
         key={index}
         itemSize={data.map(item => item.size)}
         startIndex={selected ? selected.localIndex : 0}
@@ -36,18 +37,19 @@ export default ({ data, value, onChange, splitBy, size }) => {
         focused={ isRingFocused( data, selected, hovered ) }
       >
         {data.map(item => (
-          <Flag
-            key={item.index}
-            value={item.value}
-            size={item.size}
-            onMouseEnter={() => {
-              if (item !== selected) setHovered(item);
-            }}
-            onMouseOut={() => setHovered(null)}
-            onClick={() => onChange(item.value)}
-          >
-            {item.value}
-          </Flag>
+            <Flag
+              key={item.index}
+              value={item.value}
+              size={item.size}
+              onMouseEnter={() => {
+                if (item !== selected) setHovered(item);
+              }}
+              onMouseOut={() => setHovered(null)}
+              onClick={() => onChange(item.value)}
+            >
+              <HoverArea/>
+              {item.value}
+            </Flag>
         ))}
       </RingDisplay>
     );
@@ -172,8 +174,23 @@ const calculateAndSetItemSize = (data, containerSize) =>
     ? calculateItemSizeForContainer(data[data.length - 1].length, containerSize)
     : 0);
 
+const HoverArea = styled.div.attrs(({ size = 0}) => ({
+  style: {
+
+  }
+}))`
+  width: 130%;
+  height: 130%;
+  left: -15%;
+  top: -15%;
+  position: absolute;
+  border-radius: 50%;
+`;
+
 const Flag = styled.div.attrs(({ size = 0, value = "" }) => ({
   style: {
+    width: size+'px',
+    height: size+'px',
     fontSize: size * 0.35,
     backgroundImage:
       value !== ""
@@ -194,9 +211,12 @@ const Flag = styled.div.attrs(({ size = 0, value = "" }) => ({
   justify-content: center;
   align-items: center;
   padding: 2px;
-  //border: 2px solid white;
+  border: 1px solid black;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 170%;
   transition: all 0.2s ease-in;
+  &:hover {
+    border: 2px solid white;
+  }
 `;

@@ -120,13 +120,9 @@ const Item = styled.li.attrs(({ size = 20, overflow = false, square = false }) =
       overflow: overflow ? "visible" : "hidden",
       borderRadius: square ? "none" : "50%"
 }}))`
-  transition: all linear 0.3s
+  transition: all linear 0.2s
   cursor: pointer;
   position: absolute;
-  border: 1px solid black;
-  &:hover {
-    border: 3px solid white;
-  }
 `;
 
 export {
