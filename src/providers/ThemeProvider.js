@@ -53,6 +53,20 @@ const themes = [
         contrastColor: '#FFD200',
         fancyColor: '#FFD200',
     },
+    {   //dark
+        previewColor: '#424242',
+        headerColor: '#424242',
+        glowColor: '#424242',
+        contrastColor: '#000',
+        fancyColor: '#000',
+    },
+    {   //black
+        previewColor: 'black',
+        headerColor: 'black',
+        glowColor: 'black',
+        contrastColor: '#FFF',
+        fancyColor: '#FFF',
+    },
 ]
 
 export default function( props ) {
