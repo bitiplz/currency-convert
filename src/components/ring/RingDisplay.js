@@ -17,7 +17,7 @@ export default function({
     <List offset={containerSize/2} focused={focused} >
       {items.map((item, i) => (
         <Anchor key={i} size={sizes[i]} r={radius} a={angles[i]}>
-          <Item size={sizes[i]} square={square} overflow={overflow.toString()}>
+          <Item size={sizes[i]} square={square} overflow={ overflow && overflow.toString()}>
             {item}
           </Item>
         </Anchor>
@@ -123,7 +123,6 @@ const Item = styled.li.attrs(({ size = 20, overflow = false, square = false }) =
       overflow: overflow ? "visible" : "hidden",
       borderRadius: square ? "none" : "50%"
 }}))`
-  background-color: white;
   transition: all 0.2s ease-in;
   cursor: pointer;
   position: absolute;
@@ -133,5 +132,5 @@ export {
   calculateRadius,
   calculateItemSizeForContainer,
   calculateRadiusForItemSize,
-  calculateItemSizeForRadius
+  calculateItemSizeForRadius,
 };

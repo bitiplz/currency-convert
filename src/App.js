@@ -1,49 +1,35 @@
 import React from "react";
+import "./app.css";
 import AppProvider from "./providers/AppProvider";
 import ThemeProvider from "./providers/ThemeProvider";
-import ThemeSelector from "./components/shared/ThemeSelector";
 import Converter from "./components/Converter";
 import ConverterWheel from "./components/ring/ConverterWheel";
 import TopBar from "./components/TopBar";
 import History from "./components/history/History";
-import UserContent from "./components/shared/UserContent";
 import GoogleLoginButton from "./components/GoogleLoginButton";
-import "./app.css";
+import ThemeSelector from "./components/shared/ThemeSelector";
+import WheelSelect, {WheelButton} from "./components/ring/WheelSelect";
+
+
 
 export default function() {
   return (
     <AppProvider>
       <ThemeProvider>
 
-        <TopBar title="Currency Wheel" middleSection={<ThemeSelector/>}>
+        <TopBar>
           <GoogleLoginButton />
         </TopBar>
-        
-        <UserContent>
-          <History />
-        </UserContent>
 
+        <div style={{ display:'flex' }}>
+          <Converter/>
+          <ThemeSelector/>
+          <History/>
+        </div>
+        
         <ConverterWheel size={620} />
+     
       </ThemeProvider>
     </AppProvider>
   );
 }
-
-/*
-      <AppProvider>
-        
-      <TopBar title="Currency Wheel" middleSection={<Converter/>}>
-          <GoogleLoginButton />
-        </TopBar>
-        
-        <UserContent>
-          <History />
-        </UserContent>
-
-        <ConverterWheel size={620} />
-      
-        <ThemeSelector/>
-      
-    </AppProvider>
-
-*/

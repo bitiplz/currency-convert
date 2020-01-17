@@ -98,8 +98,6 @@ const filterRates = raw =>  // do not use indexes like XAU
     .reduce((obj, key) => { obj[key] = raw[key]; return obj;}, {});
 
 function appReducer(state, action) {
-  console.log(action);
-
   switch (action.type) {
     case LOGIN: {
       return { ...state, user: action.user };

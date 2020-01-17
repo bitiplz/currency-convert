@@ -1,28 +1,28 @@
 import React from 'react'
 import { useTheme } from '../../providers/ThemeProvider'
+import styled from 'styled-components'
+
+import WheelSelect, { WheelButton, HoverArea } from '../ring/WheelSelect'
+
 export default props => {
-    const {all, change} = useTheme();
-    
-    return (
-        <div style={{
-                display:'block',
-            }}
-        >
-            { all.map( theme =>
-                <div
-                    key={ theme.previewColor }
-                    style={{
-                        width:'30px',
-                        height:'30px',
-                        margin:'2px',
-                        display:'inline-block',
-                        borderRadius: '50%',
-                        border: '2px solid grey',
-                        backgroundColor:theme.previewColor,
-                    }}
-                    onClick={ () => { change(theme) } }
-                />
-            )}
-        </div>
-    )
+    const {all, theme, change} = useTheme();
+   
+    return <WheelSelect
+                size={ 150 }
+                TemplateClass={ ThemeTemplate }
+                data={ all }
+                value={ theme }
+                onChange={ v => change( v ) }
+                hoverPattern={[1.2]}
+                activeItemSize={1.4}
+            />
 }
+
+const ThemeTemplate = props =>
+  <ThemeButton {...props} >
+    <HoverArea/>
+  </ThemeButton>
+
+const ThemeButton = styled(WheelButton)`
+    background-color: ${ ({value}) => value ? value.previewColor : 'red' }
+`
