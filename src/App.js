@@ -8,8 +8,8 @@ import TopBar from "./components/TopBar";
 import History from "./components/history/History";
 import GoogleLoginButton from "./components/GoogleLoginButton";
 import ThemeSelector from "./components/shared/ThemeSelector";
-import WheelSelect, {WheelButton} from "./components/ring/WheelSelect";
 
+import Demo from "./demo/Demo";
 
 
 export default function() {
@@ -17,19 +17,26 @@ export default function() {
     <AppProvider>
       <ThemeProvider>
 
-        <TopBar>
-          <GoogleLoginButton />
-        </TopBar>
 
-        <div style={{ display:'flex' }}>
-          <Converter/>
+        <Demo>
+
+          
           <ThemeSelector/>
+          <TopBar><GoogleLoginButton /></TopBar>
+          <Converter/>
           <History/>
-        </div>
-        
-        <ConverterWheel size={620} />
-     
+          <ConverterWheel size={700} />
+
+        </Demo>
+
+
       </ThemeProvider>
     </AppProvider>
   );
 }
+
+/*
+
+<Demo comp={  } ></Demo>
+
+*/

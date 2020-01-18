@@ -14,12 +14,13 @@ export default function Converter( props ) {
 
   return (
     <div>
+      <Focusable value='from' >
         <CurrencyList
           data={ currencies }
           selected={ from }
           onSelect={ e => dispatch({ type: CHANGE_SELECTION, selection : { from: e.target.value } }) }
         />
-      
+      </Focusable>
       <input
         style={{ width: '50px' }}
         value={ amount ? amount : "" }
@@ -31,12 +32,13 @@ export default function Converter( props ) {
         disabled
         value={ calculatedAmount }
       />
-      
+      <Focusable value='to' >
         <CurrencyList
           data={ currencies }
           selected={ to }
           onSelect={ e => dispatch({ type: CHANGE_SELECTION, selection : { to: e.target.value } }) }
         />
+      </Focusable>
 
     </div>
   );

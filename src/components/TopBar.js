@@ -37,7 +37,7 @@ const TopBar = styled.div`
     height: 50px;
     padding: 8px;
     display: grid;
-    grid-template-columns: 200px auto 240px ${ ({children})=> Array.isArray(children[2]) ? children[2].reduce(acc=>acc+"50px ","") : "50px "  };
+    grid-template-columns: 100px auto 100px ${ ({children})=> Array.isArray(children[2]) ? children[2].reduce(acc=>acc+"50px ","") : "50px "  };
 
     -webkit-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);
     -moz-box-shadow: -4px 13px 8px -11px rgba(0,0,0,0.75);

@@ -6,15 +6,13 @@ import { CHANGE_SELECTION } from "../../providers/ActionTypes";
 import UserContent from "../shared/UserContent";
 import WheelSelect, { WheelButton, HoverArea }from '../ring/WheelSelect'
 
-export default function(props) {
+export default props => {
     const {state, dispatch} = useAppStore()
 
     const {selection} = state
-    const match = state.history.find( ({from,to,amount}) => (
-      from === selection.from
-      && to === selection.to
-      && amount === selection.amount
-    ))
+    const match = state.history.find( ({from,to,amount}) =>
+      from === selection.from && to === selection.to && amount === selection.amount
+    )
 
     return (
       <UserContent>
@@ -32,10 +30,9 @@ export default function(props) {
     )
 }
 
-
 const SaveSelection = ( props ) => {
     const {state} = useAppStore()
-
+    
     const saveToDb = () => {
       const db = firebase.firestore()
       const collection = db.collection('users').doc( state.user.uid ).collection('history')
@@ -52,15 +49,12 @@ const SaveSelection = ( props ) => {
         })
     }
 
-    return  <HistoryButton size={50} onClick={ saveToDb } >
-              + Save
-            </HistoryButton>
+    return  <HistoryButton size={50} onClick={ saveToDb } > + Save </HistoryButton>
   }
-
 
 const HistoryTemplate = props =>
   <HistoryButton {...props} >
-    { props.value.from }<br/>{props.value.to }
+    { props.value.from }<br/>{ props.value.to }
     <HoverArea/>
   </HistoryButton>
 
